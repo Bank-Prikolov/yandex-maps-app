@@ -4,6 +4,7 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
+import screeninfo
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -15,6 +16,8 @@ from PyQt5.QtWidgets import (
 
 import requests
 
+size = width, height = screeninfo.get_monitors()[0].width, screeninfo.get_monitors()[0].height
+
 
 class Maps_WA(QtWidgets.QWidget):
     def __init__(self):
@@ -22,7 +25,7 @@ class Maps_WA(QtWidgets.QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(1000, 500, 400, 50)
+        self.setGeometry(1000, 500, 1024, 704)
         self.setWindowTitle('Карты')
 
         self.first_value = QLineEdit(self)
