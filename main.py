@@ -50,7 +50,7 @@ class Maps_WA(QtWidgets.QWidget):
             self.second_value.setText('')
 
 
-while __name__ == '__main__':
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Maps_WA()
     ex.show()
