@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
@@ -17,7 +18,8 @@ from PyQt5.QtWidgets import (
 import requests
 
 size = width, height = screeninfo.get_monitors()[0].width, screeninfo.get_monitors()[0].height
-
+req = "https://static-maps.yandex.ru/v1"
+params = {"apikey": os.getenv("API_KEY"),}
 
 class Maps_WA(QtWidgets.QWidget):
     def __init__(self):
