@@ -1,6 +1,7 @@
 import sys
 import json
 import os
+from dataclasses import dataclass, field
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
@@ -19,7 +20,15 @@ import requests
 
 size = width, height = screeninfo.get_monitors()[0].width, screeninfo.get_monitors()[0].height
 req = "https://static-maps.yandex.ru/v1"
-params = {"apikey": os.getenv("API_KEY"),}
+params = {"apikey": os.getenv("API_KEY")}
+
+@dataclass
+class MapsData:
+    spn: float = 0.003
+    display: str = 'map'
+    pt: str = ''
+    postal_code: str = ''
+    address: str = ''
 
 class Maps_WA(QtWidgets.QWidget):
     def __init__(self):
