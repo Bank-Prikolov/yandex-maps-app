@@ -23,7 +23,7 @@ size = width, height = screeninfo.get_monitors()[0].width, screeninfo.get_monito
 # params = {"apikey": os.getenv("API_KEY"), }
 
 
-class Maps_WA(QtWidgets.QWidget):
+class Maps(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -32,21 +32,21 @@ class Maps_WA(QtWidgets.QWidget):
         self.setGeometry(width // 2- 512, height // 2 - 352, 1024, 704)
         self.setWindowTitle('Карты')
 
-        self.coords = QLineEdit(self)
-        self.coords.resize(160, 40)
-        self.coords.move(10, 5)
+        self.x = QLineEdit(self)
+        self.x.resize(160, 40)
+        self.x.move(10, 5)
 
-        self.second_value = QLineEdit(self)
-        self.second_value.resize(160, 40)
-        self.second_value.move(10, 60)
+        self.y = QLineEdit(self)
+        self.y.resize(160, 40)
+        self.y.move(10, 50)
 
-        self.second_value = QLineEdit(self)
-        self.second_value.resize(160, 40)
-        self.second_value.move(10, 60)
+        self.zoom = QLineEdit(self)
+        self.zoom.resize(160, 40)
+        self.zoom.move(10, 95)
 
-        self.trick_button = QPushButton('->', self)
-        self.trick_button.resize(40, 40)
-        self.trick_button.move(180, 5)
+        self.search = QPushButton('Поиск', self)
+        self.search.resize(160, 40)
+        self.search.move(10, 140)
 
         self.simage = QPixmap('map.png').scaled(750, 563)
         razmer = self.simage.size()
@@ -55,21 +55,30 @@ class Maps_WA(QtWidgets.QWidget):
         self.image.resize(razmer)
         self.image.setPixmap(self.simage)
 
-        self.trick_button.clicked.connect(self.switch)
+        self.search.clicked.connect(self.searchfunc)
 
-    def switch(self):
-        if self.trick_button.text() == '->':
-            self.trick_button.setText('<-')
-            self.second_value.setText(self.coords.text())
-            self.coords.setText('')
-        else:
-            self.trick_button.setText('->')
-            self.coords.setText(self.second_value.text())
-            self.second_value.setText('')
+    def searchfunc(self):
+        x = self.x.text()
+        y = self.y.text()
+        zoom = self.zoom.text()
+        map_request = f"http://static-maps.yandex.ru/1.x/?l=map&ll={x}%2C{y}&z={zoom}"
+        response = requests.get(map_request)
+        map_file = "map.png"
+        with open(map_file, "wb") as file:
+            file.write(response.content)
+        self.setpic()
+
+    def setpic(self):
+        self.simage = QPixmap('map.png').scaled(750, 563)
+        razmer = self.simage.size()
+        self.image = QLabel(self)
+        self.image.move(220, 50)
+        self.image.resize(razmer)
+        self.image.setPixmap(self.simage)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Maps_WA()
+    ex = Maps()
     ex.show()
     sys.exit(app.exec())
