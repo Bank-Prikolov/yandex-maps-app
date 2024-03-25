@@ -20,7 +20,7 @@ import requests
 
 size = width, height = screeninfo.get_monitors()[0].width, screeninfo.get_monitors()[0].height
 # req = "http://static-maps.yandex.ru/1.x/"
-# params = {"apikey": os.getenv("API_KEY"), }
+params = {"apikey": os.getenv("API_KEY"), }
 
 
 class Maps(QtWidgets.QWidget):
@@ -58,15 +58,8 @@ class Maps(QtWidgets.QWidget):
         self.search.clicked.connect(self.searchfunc)
 
     def searchfunc(self):
-        x = self.x.text()
-        y = self.y.text()
-        zoom = self.zoom.text()
-        map_request = f"http://static-maps.yandex.ru/1.x/?l=map&ll={x}%2C{y}&z={zoom}"
-        response = requests.get(map_request)
-        map_file = "map.png"
-        with open(map_file, "wb") as file:
-            file.write(response.content)
-        self.setpic()
+        pass
+
 
     def setpic(self):
         self.simage = QPixmap('map.png').scaled(750, 563)
