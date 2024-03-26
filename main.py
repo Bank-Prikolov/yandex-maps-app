@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
 
     def setupData(self) -> None:
         self.data = MapsData()
-        self.data.coords = [30.312363709126018, 59.94157564755226]
+        self.data.coords = [32.095323, 54.769680]
         self.map_type_choices = {
             'Схема': 'map',
             'Спутник': 'sat',
