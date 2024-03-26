@@ -44,7 +44,6 @@ border-radius: 10px;</string>
      <string notr="true">background-color: rgb(85, 85, 127);
 border: 2px solid rgb(255, 255, 255);
 border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
 font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
@@ -69,7 +68,6 @@ color: rgb(255, 255, 255);</string>
      <string notr="true">background-color: rgb(85, 85, 127);
 border: 2px solid rgb(255, 255, 255);
 border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
 font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);
@@ -92,7 +90,6 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(85, 85, 127);
 border: 2px solid rgb(255, 255, 255);
 border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
 font-size: 20px;
 color: rgb(255, 255, 255);
 </string>
@@ -147,8 +144,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -169,8 +165,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -180,6 +175,9 @@ color: rgb(255, 255, 255);</string>
     <property name="shortcut">
      <string/>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="radioButtonHybrid">
     <property name="geometry">
@@ -194,8 +192,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -205,6 +202,9 @@ color: rgb(255, 255, 255);</string>
     <property name="shortcut">
      <string/>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="radioButtonScheme">
     <property name="geometry">
@@ -219,8 +219,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -233,6 +232,9 @@ color: rgb(255, 255, 255);</string>
     <property name="checked">
      <bool>true</bool>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
    </widget>
    <widget class="Line" name="lineHorizontal">
     <property name="geometry">
@@ -257,8 +259,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -276,8 +277,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
+     <string notr="true">font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
     </property>
@@ -309,7 +309,7 @@ color: rgb(255, 255, 255);</string>
      <rect>
       <x>640</x>
       <y>380</y>
-      <width>221</width>
+      <width>111</width>
       <height>111</height>
      </rect>
     </property>
@@ -410,32 +410,10 @@ color: rgb(255, 255, 255);</string>
      <string>▶</string>
     </property>
    </widget>
-   <widget class="Line" name="lineVertical">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>390</y>
-      <width>41</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>5</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QPushButton" name="buttonPlus">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>770</x>
       <y>400</y>
       <width>31</width>
       <height>31</height>
@@ -457,7 +435,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="buttonMinus">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>770</x>
       <y>440</y>
       <width>31</width>
       <height>31</height>
@@ -479,22 +457,66 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="MagnifyingGlass">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>800</x>
       <y>400</y>
       <width>41</width>
       <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size: 34px;
+     <string notr="true">font-size: 35px;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>🔍︎</string>
     </property>
    </widget>
+   <widget class="QLabel" name="labelMapButtons_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>380</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>labelMapButtons_2</zorder>
+   <zorder>map</zorder>
+   <zorder>buttonClearResults</zorder>
+   <zorder>buttonSearch</zorder>
+   <zorder>fieldSearch</zorder>
+   <zorder>labelAdress</zorder>
+   <zorder>labelMapType</zorder>
+   <zorder>textMapType</zorder>
+   <zorder>radioButtonSatellite</zorder>
+   <zorder>radioButtonHybrid</zorder>
+   <zorder>radioButtonScheme</zorder>
+   <zorder>lineHorizontal</zorder>
+   <zorder>checkboxIndex</zorder>
+   <zorder>textFullAdress</zorder>
+   <zorder>fieldAdressShow</zorder>
+   <zorder>labelMapButtons</zorder>
+   <zorder>buttonLeftArrow</zorder>
+   <zorder>buttonTopArrow</zorder>
+   <zorder>buttonBottomArrow</zorder>
+   <zorder>buttonRightArrow</zorder>
+   <zorder>buttonPlus</zorder>
+   <zorder>buttonMinus</zorder>
+   <zorder>MagnifyingGlass</zorder>
   </widget>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="mapTypeGroup"/>
+ </buttongroups>
 </ui>
