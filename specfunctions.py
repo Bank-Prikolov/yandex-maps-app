@@ -1,10 +1,9 @@
 import os
 import requests
 import math
-from typing import Union
 
 
-def get_place_map(data) -> requests.Response:
+def get_place_map(data):
     map_params = {
         'll': ','.join(list(map(str, data.coords))),
         'l': data.display,
@@ -18,7 +17,7 @@ def get_place_map(data) -> requests.Response:
     return response
 
 
-def get_place_toponym(place_name=None, coords=None) -> requests.Response:
+def get_place_toponym(place_name=None, coords=None):
     geocoder_params = {
         'apikey': os.getenv('GEOCODER_API_KEY'),
         'format': 'json',
@@ -33,10 +32,10 @@ def get_place_toponym(place_name=None, coords=None) -> requests.Response:
     return response
 
 
-def get_organization(coords: str) -> requests.Response:
+def get_organization(coords):
     search_params = {
         'apikey': os.getenv('ORGANIZATION_API_KEY'),
-        'text': 'аптека',
+        'text': 'OOO',
         'lang': 'ru_RU',
         'll': coords,
         'type': 'biz',
@@ -46,24 +45,17 @@ def get_organization(coords: str) -> requests.Response:
 
     search_api_server = 'https://search-maps.yandex.ru/v1/'
     response = requests.get(search_api_server, params=search_params)
+    print(response.json())
     return response
 
 
-# функция, считающая расстояние между двумя точками по координатам
-def lonlat_distance(a: Union[list, tuple], b: Union[list, tuple]) -> float:
-    degree_to_meters_factor = 111 * 1000  # 111 километров в метрах
+def lonlat_distance(a, b):
+    degree_to_meters_factor = 111 * 1000
     a_lon, a_lat = a
     b_lon, b_lat = b
-
-    # Берем среднюю по широте точку и считаем коэффициент для нее.
     radians_lattitude = math.radians((a_lat + b_lat) / 2.0)
     lat_lon_factor = math.cos(radians_lattitude)
-
-    # Вычисляем смещения в метрах по вертикали и горизонтали.
     dx = abs(a_lon - b_lon) * degree_to_meters_factor * lat_lon_factor
     dy = abs(a_lat - b_lat) * degree_to_meters_factor
-
-    # Вычисляем расстояние между точками.
     distance = math.sqrt(dx * dx + dy * dy)
-
     return distance

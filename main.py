@@ -2,12 +2,10 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QKeyEvent, QMouseEvent, QCloseEvent, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QRadioButton, QMessageBox
-from dataclasses import dataclass, field
-from typing import List
 import specfunctions
-import requests
 import sys
 import os
+import db
 
 if hasattr(Qt, 'AA_EnableHighDpiScaling'):
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
@@ -15,14 +13,14 @@ if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
 
-@dataclass
 class MapsData:
-    spn: float = 0.003
-    coords: List[float] = field(default_factory=list)
-    display: str = 'map'
-    pt: str = ''
-    postal_code: str = ''
-    address: str = ''
+    db.firstTime()
+    spn = db.get_spn()
+    coords = list(db.get_coords())
+    display = db.get_display()
+    pt = db.get_pt()
+    postal_code = db.get_postal_code()
+    address = db.get_address()
 
 
 class MainWindow(QMainWindow):
@@ -53,7 +51,6 @@ class MainWindow(QMainWindow):
 
     def setupData(self):
         self.data = MapsData()
-        self.data.coords = [32.095323, 54.769680]
         self.map_type_choices = {
             'Схема': 'map',
             'Спутник': 'sat',
@@ -71,13 +68,13 @@ class MainWindow(QMainWindow):
                 f'Причина: {response.reason}, {response.request.url}',
             )
 
-    def setPicture(self, response: requests.Response) -> None:
+    def setPicture(self, response):
         with open('data/image.png', 'wb') as file:
             file.write(response.content)
         pixmap = QPixmap('data/image.png')
         self.map.setPixmap(pixmap)
 
-    def showMessage(self, action: str, text: str) -> None:
+    def showMessage(self, action, text):
         print('q')
         """сообщение пользователю"""
         if action == 'reqerror':
@@ -166,7 +163,7 @@ class MainWindow(QMainWindow):
         self.data.display = self.map_type_choices[button.text()]
         self.getPicture()
 
-    def searchPlace(self, coords: str = ''):
+    def searchPlace(self, coords):
         place = self.fieldSearch.toPlainText().strip()
         if coords:
             toponym = specfunctions.get_place_toponym(None, coords)
@@ -190,7 +187,7 @@ class MainWindow(QMainWindow):
                 f' Причина: {toponym.reason}',
             )
 
-    def setPlace(self, toponym: dict, coords: str = '') -> None:
+    def setPlace(self, toponym, coords=''):
         toponym_address = toponym['metaDataProperty']['GeocoderMetaData'][
             'text'
         ]
@@ -210,7 +207,7 @@ class MainWindow(QMainWindow):
         self.getPostalCode(toponym)
         self.resetPostalCode()
 
-    def getPostalCode(self, toponym: dict) -> None:
+    def getPostalCode(self, toponym):
         try:
             self.data.postal_code = toponym['metaDataProperty'][
                 'GeocoderMetaData'
@@ -219,15 +216,14 @@ class MainWindow(QMainWindow):
             self.e = e
             self.data.postal_code = ''
 
-    def resetSearchResult(self) -> None:
+    def resetSearchResult(self):
         self.data.pt = ''
         self.data.postal_code = ''
         self.data.address = ''
         self.fieldAdressShow.setPlainText('')
-        self.fieldSearch.setPlainText('')
         self.getPicture()
 
-    def resetPostalCode(self) -> None:
+    def resetPostalCode(self):
         if self.checkboxIndex.isChecked() and self.data.postal_code:
             self.fieldAdressShow.setPlainText(
                 self.data.address + ' (' + self.data.postal_code + ')'
@@ -235,29 +231,31 @@ class MainWindow(QMainWindow):
         else:
             self.fieldAdressShow.setPlainText(self.data.address)
 
-    def mouseToCoords(self, mouse_pos: tuple) -> tuple:
-        """получаем координаты точки из клика по карте"""
-        x, y = mouse_pos[0], mouse_pos[1]
-        if 0 <= x <= 619 and 0 <= y <= 429:
-            coord_1 = (
-                self.data.coords[0]
-                + self.data.spn / 619 * x
-            )
-            coord_2 = (
-                self.data.coords[1]
-                + self.data.spn / 429 * y
-            )
+    def mouseToCoords(self, mouse_pos):
+        print(self.map.pos().x(), self.map.pos().y())
+        x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
+        y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
+
+        if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
+            print('here')
+            spn_x = self.data.spn / 300 * (mouse_pos[0] - x1)
+            spn_y = self.data.spn / 220 * (mouse_pos[1] - y1)
+            print(spn_x, spn_y)
+
+            coord_1 = self.data.coords[0] - self.data.spn + spn_x
+            coord_2 = self.data.coords[1] + self.data.spn - spn_y
+            print(coord_1, coord_2)
+
             return coord_1, coord_2
         else:
             return False, False
 
-    def searchPlaceClick(self, mouse_pos: tuple) -> None:
-        """поиск места по клику ЛКМ"""
+    def searchPlaceClick(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
         if coord_1:
             self.searchPlace(coords=f'{coord_1},{coord_2}')
 
-    def searchOrganization(self, mouse_pos: tuple) -> None:
+    def searchOrganization(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
         if coord_1:
             response = specfunctions.get_organization(f'{coord_1},{coord_2}')
@@ -265,25 +263,17 @@ class MainWindow(QMainWindow):
                 response_json = response.json()
                 try:
                     organization = response_json['features'][0]
-                    # название организации
-                    org_name = organization['properties']['CompanyMetaData'][
-                        'name'
-                    ]
-                    # адрес организации
-                    org_address = organization['properties'][
-                        'CompanyMetaData'
-                    ]['address']
-                    # координаты
+                    org_name = organization['properties']['CompanyMetaData']['name']
+                    org_address = organization['properties']['CompanyMetaData']['address']
                     coords = organization['geometry']['coordinates']
 
-                    # расстояние не более 50м
+                    print(specfunctions.lonlat_distance(self.data.coords, coords))
                     if specfunctions.lonlat_distance(self.data.coords, coords) <= 50:
-                        self.data.pt = (
-                            ','.join(list(map(str, coords))) + ',pm2vvm'
-                        )
+                        self.data.pt = ','.join(list(map(str, coords))) + ',pm2vvm'
+                        print(self.data.pt)
                         self.data.postal_code = ''
                         self.data.address = org_name + '\n' + org_address
-
+                        print(self.data.address)
                         self.getPicture()
                         self.resetPostalCode()
                 except Exception as e:
