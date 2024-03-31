@@ -22,7 +22,6 @@ def get_place_toponym(place_name=None, coords=None) -> requests.Response:
     geocoder_params = {
         'apikey': os.getenv('GEOCODER_API_KEY'),
         'format': 'json',
-        'islands': 'violetIcon',
     }
     if place_name:
         geocoder_params['geocode'] = place_name

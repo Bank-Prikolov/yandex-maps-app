@@ -200,7 +200,7 @@ class MainWindow(QMainWindow):
             self.data.coords = list(map(float, toponym_coords.split()))
             self.data.spn = 0.003
             self.data.pt = (
-                    ','.join(list(map(str, toponym_coords.split()))) + ',pm2rdm'
+                    ','.join(list(map(str, toponym_coords.split()))) + ',pm2ntm'
             )
         else:
             self.data.pt = coords + ',pm2ntm'
