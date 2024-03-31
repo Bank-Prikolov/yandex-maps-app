@@ -13,6 +13,31 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QRadioButton {
+	font-size: 14px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton {
+	font: 81 8pt &quot;Rockwell Extra Bold&quot;;
+    background-color: rgb(85, 85, 127);
+	border: 2px solid rgb(255, 255, 255);
+	border-radius: 10px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(65, 65, 100);  
+}
+
+QPushButton:pressed {
+	background-color: rgb(65, 65, 100);
+    border: 3px solid rgb(255, 255, 255);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="map">
     <property name="geometry">
@@ -24,8 +49,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;</string>
+     <string notr="true">border: 2px solid rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string/>
@@ -41,12 +65,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
      <string>Сброс  результата</string>
@@ -65,12 +84,7 @@ color: rgb(255, 255, 255);</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);
+     <string notr="true">font-size: 14px;
 </string>
     </property>
     <property name="text">
@@ -165,9 +179,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Спутник</string>
@@ -192,9 +204,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Гибрид</string>
@@ -219,9 +229,7 @@ color: rgb(255, 255, 255);</string>
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Схема</string>
@@ -298,7 +306,6 @@ color: rgb(255, 255, 255);</string>
      <string notr="true">background-color: rgb(85, 85, 127);
 border: 2px solid rgb(255, 255, 255);
 border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
 font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
@@ -332,13 +339,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 20px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 20px;</string>
     </property>
     <property name="text">
      <string>◀</string>
@@ -354,13 +355,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
      <string>▲</string>
@@ -376,13 +371,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 14px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
      <string>▼</string>
@@ -398,13 +387,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 20px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 20px;</string>
     </property>
     <property name="text">
      <string>▶</string>
@@ -420,13 +403,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 16px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 16px;</string>
     </property>
     <property name="text">
      <string>+</string>
@@ -442,13 +419,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 85, 127);
-border: 2px solid rgb(255, 255, 255);
-border-radius: 10px;
-font: 81 8pt &quot;Rockwell Extra Bold&quot;;
-font-size: 16px;
-font-weight: bold;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font-size: 16px;</string>
     </property>
     <property name="text">
      <string>-</string>

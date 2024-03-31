@@ -1,18 +1,18 @@
-import sys
+from PyQt5 import uic
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap, QKeyEvent, QMouseEvent, QCloseEvent, QIcon
+from PyQt5.QtWidgets import QApplication, QMainWindow, QRadioButton, QMessageBox
 from dataclasses import dataclass, field
 from typing import List
-
-from PyQt5 import uic
-from PyQt5.QtCore import Qt, QRect
-from PyQt5.QtGui import QPixmap, QPainter, QPainterPath
-from PyQt5.QtCore import QRectF
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QRadioButton,
-)
-
+import specfunctions
 import requests
+import sys
+import os
+
+if hasattr(Qt, 'AA_EnableHighDpiScaling'):
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
 
 @dataclass
@@ -25,40 +25,33 @@ class MapsData:
     address: str = ''
 
 
-def get_place_map(data) -> requests.Response:
-    """получаем ответ от static maps"""
-    map_params = {
-        'll': ','.join(list(map(str, data.coords))),
-        'l': data.display,
-        'spn': f'{data.spn},{data.spn}',
-        'pt': data.pt,
-        'size': '619,429',
-    }
-
-    map_api_server = 'http://static-maps.yandex.ru/1.x/'
-    response = requests.get(map_api_server, params=map_params)
-    return response
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super(QMainWindow, self).__init__()
         self.data = None
         self.map_type_choices = None
+        self.e = None
         self.setupUI()
 
     def setupUI(self):
         self.setupData()
         uic.loadUi('data/MainWindow.ui', self)
-        self.setWindowTitle('Maps')
+        self.setWindowTitle('Yandex Maps Widget')
+        self.setFixedSize(870, 504)
+        self.setWindowIcon(QIcon('data/icon.png'))
         self.mapTypeGroup.buttonClicked.connect(self.chooseMapType)
         self.buttonSearch.clicked.connect(self.searchPlace)
+        self.buttonClearResults.clicked.connect(self.resetSearchResult)
+        self.checkboxIndex.stateChanged.connect(self.resetPostalCode)
+        self.buttonLeftArrow.clicked.connect(self.leftArrowClicked)
+        self.buttonRightArrow.clicked.connect(self.rightArrowClicked)
+        self.buttonTopArrow.clicked.connect(self.topArrowClicked)
+        self.buttonBottomArrow.clicked.connect(self.bottomArrowClicked)
+        self.buttonPlus.clicked.connect(self.plusClicked)
+        self.buttonMinus.clicked.connect(self.minusClicked)
         self.getPicture()
 
-    def searchPlace(self):
-        pass
-
-    def setupData(self) -> None:
+    def setupData(self):
         self.data = MapsData()
         self.data.coords = [32.095323, 54.769680]
         self.map_type_choices = {
@@ -67,9 +60,8 @@ class MainWindow(QMainWindow):
             'Гибрид': 'sat,skl',
         }
 
-    def getPicture(self) -> None:
-        """получаем картинку запросом"""
-        response = get_place_map(self.data)
+    def getPicture(self):
+        response = specfunctions.get_place_map(self.data)
         if response:
             self.setPicture(response)
         else:
@@ -80,29 +72,247 @@ class MainWindow(QMainWindow):
             )
 
     def setPicture(self, response: requests.Response) -> None:
-        with open('image.png', 'wb') as file:
+        with open('data/image.png', 'wb') as file:
             file.write(response.content)
-        pixmap = QPixmap('image.png')
-        pixmap_rounded = QPixmap(pixmap.size())
-        pixmap_rounded.fill(Qt.transparent)
-        painter = QPainter(pixmap_rounded)
-        painter.setRenderHint(QPainter.Antialiasing)
-        radius = 12
-        rect = QRectF(QRect(0, 0, pixmap.width(), pixmap.height()))
-        path = QPainterPath()
-        path.addRoundedRect(rect, radius, radius)
-        painter.setClipPath(path)
-        painter.drawPixmap(0, 0, pixmap)
-        painter.end()
-        self.map.setPixmap(pixmap_rounded)
+        pixmap = QPixmap('data/image.png')
+        self.map.setPixmap(pixmap)
+
+    def showMessage(self, action: str, text: str) -> None:
+        print('q')
+        """сообщение пользователю"""
+        if action == 'reqerror':
+            QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
+
+    def leftArrowClicked(self):
+        self.data.coords[0] -= self.data.spn
+        if self.data.coords[0] < 1:
+            self.data.coords[0] = min(self.data.spn, 1)
+        else:
+            self.getPicture()
+
+    def rightArrowClicked(self):
+        self.data.coords[0] += self.data.spn
+        if self.data.coords[0] > 179:
+            self.data.coords[0] = 179
+        else:
+            self.getPicture()
+
+    def topArrowClicked(self):
+        self.data.coords[1] += self.data.spn
+        if self.data.coords[1] > 85:
+            self.data.coords[1] = 85
+        else:
+            self.getPicture()
+
+    def bottomArrowClicked(self):
+        self.data.coords[1] -= self.data.spn
+        if self.data.coords[1] < 1:
+            self.data.coords[1] = min(self.data.spn, 1)
+        else:
+            self.getPicture()
+
+    def plusClicked(self):
+        if self.data.spn != 0.002:
+            self.data.spn = max(self.data.spn / 2, 0.002)
+            self.getPicture()
+
+    def minusClicked(self):
+        if self.data.spn != 89:
+            self.data.spn = min(self.data.spn * 2, 89)
+            self.getPicture()
+
+    def keyPressEvent(self, event: QKeyEvent):
+        key = event.key()
+
+        if key == Qt.Key.Key_PageUp:
+            if self.data.spn != 89:
+                self.data.spn = min(self.data.spn * 2, 89)
+                self.getPicture()
+
+        elif key == Qt.Key.Key_PageDown:
+            if self.data.spn != 0.002:
+                self.data.spn = max(self.data.spn / 2, 0.002)
+                self.getPicture()
+
+        elif key == Qt.Key.Key_W:
+            self.data.coords[1] += self.data.spn
+            if self.data.coords[1] > 85:
+                self.data.coords[1] = 85
+            else:
+                self.getPicture()
+
+        elif key == Qt.Key.Key_S:
+            self.data.coords[1] -= self.data.spn
+            if self.data.coords[1] < 1:
+                self.data.coords[1] = min(self.data.spn, 1)
+            else:
+                self.getPicture()
+
+        elif key == Qt.Key.Key_D:
+            self.data.coords[0] += self.data.spn
+            if self.data.coords[0] > 179:
+                self.data.coords[0] = 179
+            else:
+                self.getPicture()
+
+        elif key == Qt.Key.Key_A:
+            self.data.coords[0] -= self.data.spn
+            if self.data.coords[0] < 1:
+                self.data.coords[0] = min(self.data.spn, 1)
+            else:
+                self.getPicture()
 
     def chooseMapType(self, button: QRadioButton):
         self.data.display = self.map_type_choices[button.text()]
         self.getPicture()
 
+    def searchPlace(self, coords: str = ''):
+        place = self.fieldSearch.toPlainText().strip()
+        if coords:
+            toponym = specfunctions.get_place_toponym(None, coords)
+        elif place:
+            toponym = specfunctions.get_place_toponym(place)
+        else:
+            toponym = None
+
+        if toponym:
+            toponym = toponym.json()['response']['GeoObjectCollection'][
+                'featureMember'
+            ][0]['GeoObject']
+            if coords:
+                self.setPlace(toponym, coords)
+            else:
+                self.setPlace(toponym)
+        else:
+            self.showMessage(
+                'reqerror',
+                f'Ошибка запроса: {toponym.status_code}.'
+                f' Причина: {toponym.reason}',
+            )
+
+    def setPlace(self, toponym: dict, coords: str = '') -> None:
+        toponym_address = toponym['metaDataProperty']['GeocoderMetaData'][
+            'text'
+        ]
+        toponym_coords = toponym['Point']['pos']
+
+        if not coords:
+            self.data.coords = list(map(float, toponym_coords.split()))
+            self.data.spn = 0.003
+            self.data.pt = (
+                    ','.join(list(map(str, toponym_coords.split()))) + ',pm2rdm'
+            )
+        else:
+            self.data.pt = coords + ',pm2ntm'
+        self.data.address = toponym_address
+
+        self.getPicture()
+        self.getPostalCode(toponym)
+        self.resetPostalCode()
+
+    def getPostalCode(self, toponym: dict) -> None:
+        try:
+            self.data.postal_code = toponym['metaDataProperty'][
+                'GeocoderMetaData'
+            ]['Address']['postal_code']
+        except Exception as e:
+            self.e = e
+            self.data.postal_code = ''
+
+    def resetSearchResult(self) -> None:
+        self.data.pt = ''
+        self.data.postal_code = ''
+        self.data.address = ''
+        self.fieldAdressShow.setPlainText('')
+        self.fieldSearch.setPlainText('')
+        self.getPicture()
+
+    def resetPostalCode(self) -> None:
+        if self.checkboxIndex.isChecked() and self.data.postal_code:
+            self.fieldAdressShow.setPlainText(
+                self.data.address + ' (' + self.data.postal_code + ')'
+            )
+        else:
+            self.fieldAdressShow.setPlainText(self.data.address)
+
+    def mouseToCoords(self, mouse_pos: tuple) -> tuple:
+        """получаем координаты точки из клика по карте"""
+        x, y = mouse_pos[0], mouse_pos[1]
+        if 0 <= x <= 619 and 0 <= y <= 429:
+            coord_1 = (
+                self.data.coords[0]
+                + self.data.spn / 619 * x
+            )
+            coord_2 = (
+                self.data.coords[1]
+                + self.data.spn / 429 * y
+            )
+            return coord_1, coord_2
+        else:
+            return False, False
+
+    def searchPlaceClick(self, mouse_pos: tuple) -> None:
+        """поиск места по клику ЛКМ"""
+        coord_1, coord_2 = self.mouseToCoords(mouse_pos)
+        if coord_1:
+            self.searchPlace(coords=f'{coord_1},{coord_2}')
+
+    def searchOrganization(self, mouse_pos: tuple) -> None:
+        coord_1, coord_2 = self.mouseToCoords(mouse_pos)
+        if coord_1:
+            response = specfunctions.get_organization(f'{coord_1},{coord_2}')
+            if response:
+                response_json = response.json()
+                try:
+                    organization = response_json['features'][0]
+                    # название организации
+                    org_name = organization['properties']['CompanyMetaData'][
+                        'name'
+                    ]
+                    # адрес организации
+                    org_address = organization['properties'][
+                        'CompanyMetaData'
+                    ]['address']
+                    # координаты
+                    coords = organization['geometry']['coordinates']
+
+                    # расстояние не более 50м
+                    if specfunctions.lonlat_distance(self.data.coords, coords) <= 50:
+                        self.data.pt = (
+                            ','.join(list(map(str, coords))) + ',pm2vvm'
+                        )
+                        self.data.postal_code = ''
+                        self.data.address = org_name + '\n' + org_address
+
+                        self.getPicture()
+                        self.resetPostalCode()
+                except Exception as e:
+                    self.e = e
+                    return
+            else:
+                self.showMessage(
+                    'reqerror',
+                    f'Ошибка запроса: {response.status_code}. '
+                    f'Причина: {response.reason}, {response.request.url}',
+                )
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.searchPlaceClick((event.x(), event.y()))
+        else:
+            self.searchOrganization((event.x(), event.y()))
+
+    def closeEvent(self, event: QCloseEvent):
+        os.remove('data/image.png')
+
+
+def except_hook(cls, exception, traceback):
+    sys.__excepthook__(cls, exception, traceback)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    sys.exceptHook = except_hook
     ex = MainWindow()
     ex.show()
     sys.exit(app.exec())
