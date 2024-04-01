@@ -14,7 +14,29 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QRadioButton {
+   <string notr="true">QPushButton {
+	width: 60px;
+	height: 23px;
+    background-color: rgb(85, 85, 127);
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(65, 65, 100);  
+}
+
+QPushButton:pressed {
+	background-color: rgb(65, 65, 100);
+    border: 2px solid rgb(255, 255, 255);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QRadioButton {
 	font-size: 14px;
 	font-weight: bold;
 	color: rgb(255, 255, 255);
@@ -37,8 +59,7 @@ QPushButton:pressed {
 	background-color: rgb(65, 65, 100);
     border: 3px solid rgb(255, 255, 255);
 }</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
+   </property>
    <widget class="QLabel" name="map">
     <property name="geometry">
      <rect>
