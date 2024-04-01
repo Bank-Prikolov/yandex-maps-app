@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
             self.fieldSearch.setPlainText(db.get_search_info())
         self.checkWhatRadioButton()
         if self.data.address != '':
-            print(self.fieldAdressShow)
+            # print(self.fieldAdressShow)
             self.fieldAdressShow.setPlainText(self.data.address)
         if db.get_checkbox_index() == 1:
             self.checkboxIndex.setChecked(True)
@@ -254,24 +254,25 @@ class MainWindow(QMainWindow):
 
     def mouseToCoords(self, pos):
         import math
-        coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
         print(self.data.coords)
-        dy = 619 - pos[1]
-        dx = pos[0] - 429
-        lx = self.data.coords[0] + dx * self.data.spn * 2 ** (-5)
+        dx = pos[0] - self.map.pos().x() - (self.map.pos().x() + 629) / 2
+        # dy = 400 - pos[1]
+        lx = self.data.coords[0] + dx * self.data.spn
+        # ly = self.data.coords[1] + dy * (self.data.spn) * math.cos(math.radians(self.data.coords[1])) * 2 ** (-5)
         ly = self.data.coords[1]
-        print(lx, ly)
-
+        print(lx, round(ly, 6))
         return round(lx, 6), round(ly, 6)
 
     coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
+
     def screen_to_geo(pos):
         dy = 225 - pos[1]
         dx = pos[0] - 300
-        lx = longitude + dx * coord_to_geo_x * 2(15 - z)
-        ly = lattitude + dy * coord_to_geo_y * math.cos(math.radians(lattitude)) * 2(15 - z)
+        lx = longitude + dx * coord_to_geo_x * 2
+        ly = lattitude + dy * coord_to_geo_y * math.cos(math.radians(lattitude)) * 2
 
         return round(lx, 6), round(ly, 6)
+
     # def mouseToCoords(self, mouse_pos):
     #     x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
     #     y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
