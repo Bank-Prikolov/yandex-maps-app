@@ -7,12 +7,12 @@ cur = con.cursor()
 def firstTime():
     cur.execute("""
             CREATE TABLE IF NOT EXISTS
-            MapsData(id INT PRIMARY KEY, spn REAL, coords TEXT, display TEXT, pt TEXT, postal_code TEXT, address TEXT, 
-            checkboxIndex INT, searchInfo TEXT)
+            MapsData(id INT PRIMARY KEY, spn REAL, coords TEXT, display TEXT, pt TEXT, z INT, postal_code TEXT, 
+            address TEXT, checkboxIndex INT, searchInfo TEXT)
         """)
     cur.execute("""
-            INSERT INTO MapsData (id, spn, coords, display, pt, postal_code, address, checkboxIndex, searchInfo) 
-            VALUES (1, 0.003, '32.095323, 54.769680', 'map', '', '', '', 0, '')
+            INSERT INTO MapsData (id, spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo) 
+            VALUES (1, 0.003, '32.095323, 54.769680', 'map', '', 10, '', '', 0, '')
             ON CONFLICT (id) DO NOTHING
         """)
     con.commit()
@@ -40,6 +40,12 @@ def get_pt():
     req = f"""SELECT pt FROM MapsData WHERE id = 1"""
     result = cur.execute(req).fetchone()[0]
     return result
+
+
+def get_zoom():
+    req = f"""SELECT z FROM MapsData WHERE id = 1"""
+    result = cur.execute(req).fetchone()[0]
+    return int(result)
 
 
 def get_postal_code():
