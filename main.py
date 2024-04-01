@@ -21,7 +21,7 @@ class MapsData:
     pt = db.get_pt()
     postal_code = db.get_postal_code()
     address = db.get_address()
-    # z = db.get_zoom()
+    z = db.get_zoom()
 
 
 class MainWindow(QMainWindow):
@@ -252,21 +252,41 @@ class MainWindow(QMainWindow):
         else:
             self.fieldAdressShow.setPlainText(self.data.address)
 
-    def mouseToCoords(self, mouse_pos):
-        x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
-        y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
-        print(self.data.spn)
+    def mouseToCoords(self, pos):
+        import math
+        coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
+        print(self.data.coords)
+        dy = 619 - pos[1]
+        dx = pos[0] - 429
+        lx = self.data.coords[0] + dx * self.data.spn * 2 ** (-5)
+        ly = self.data.coords[1]
+        print(lx, ly)
 
-        if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
-            spn_x = self.data.spn / 309.5 * (mouse_pos[0] - x1)
-            spn_y = self.data.spn / 214.5 * (mouse_pos[1] - y1)
+        return round(lx, 6), round(ly, 6)
 
-            coord_1 = self.data.coords[0] - self.data.spn + spn_x
-            coord_2 = self.data.coords[1] + self.data.spn - spn_y
+    coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
+    def screen_to_geo(pos):
+        dy = 225 - pos[1]
+        dx = pos[0] - 300
+        lx = longitude + dx * coord_to_geo_x * 2(15 - z)
+        ly = lattitude + dy * coord_to_geo_y * math.cos(math.radians(lattitude)) * 2(15 - z)
 
-            return round(coord_1, 6), round(coord_2, 6)
-        else:
-            return False, False
+        return round(lx, 6), round(ly, 6)
+    # def mouseToCoords(self, mouse_pos):
+    #     x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
+    #     y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
+    #     print(self.data.spn)
+    #
+    #     if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
+    #         spn_x = self.data.spn / 309.5 * (mouse_pos[0] - x1)
+    #         spn_y = self.data.spn / 214.5 * (mouse_pos[1] - y1)
+    #
+    #         coord_1 = self.data.coords[0] - self.data.spn + spn_x
+    #         coord_2 = self.data.coords[1] + self.data.spn - spn_y
+    #
+    #         return round(coord_1, 6), round(coord_2, 6)
+    #     else:
+    #         return False, False
 
     def searchPlaceClick(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
@@ -311,8 +331,9 @@ class MainWindow(QMainWindow):
             self.searchOrganization((event.x(), event.y()))
 
     def closeEvent(self, event: QCloseEvent):
-        db.write_data(self.data.spn, self.data.coords, self.data.display, self.data.pt, self.data.postal_code,
-                      self.data.address, --self.checkboxIndex.isChecked(), self.fieldSearch.toPlainText().strip())
+        db.write_data(self.data.spn, self.data.coords, self.data.display, self.data.pt, self.data.z,
+                      self.data.postal_code, self.data.address, --self.checkboxIndex.isChecked(),
+                      self.fieldSearch.toPlainText().strip())
         db.con.close()
         os.remove('data/image.png')
 

@@ -72,8 +72,8 @@ def get_search_info():
     return result
 
 
-def write_data(spn, coords, display, pt, postal_code, address, checkboxIndex, searchInfo):
+def write_data(spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo):
     cur.execute(f"""UPDATE MapsData SET spn = {spn}, coords = '{coords[0]}, {coords[1]}', display = '{display}', 
-    pt = '{pt}', postal_code = '{postal_code}', address = '{address}', checkboxIndex = {checkboxIndex}, 
+    pt = '{pt}', z = {z}, postal_code = '{postal_code}', address = '{address}', checkboxIndex = {checkboxIndex}, 
     searchInfo = '{searchInfo}' WHERE id = 1""")
     con.commit()
