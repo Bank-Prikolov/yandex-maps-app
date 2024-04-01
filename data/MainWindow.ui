@@ -109,7 +109,7 @@ color: rgb(255, 255, 255);
 </string>
     </property>
     <property name="plainText">
-     <string>Введите запрос</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="labelAdress">
@@ -309,6 +309,12 @@ border-radius: 10px;
 font-size: 14px;
 font-weight: bold;
 color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="undoRedoEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="labelMapButtons">

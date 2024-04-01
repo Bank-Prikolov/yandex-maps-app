@@ -32,8 +32,8 @@ class MainWindow(QMainWindow):
         self.setupUI()
 
     def setupUI(self):
-        self.setupData()
         uic.loadUi('data/MainWindow.ui', self)
+        self.setupData()
         self.setWindowTitle('Yandex Maps Widget')
         self.setFixedSize(870, 504)
         self.setWindowIcon(QIcon('data/icon.png'))
@@ -56,6 +56,23 @@ class MainWindow(QMainWindow):
             'Спутник': 'sat',
             'Гибрид': 'sat,skl',
         }
+        if db.get_search_info() != '':
+            self.fieldSearch.setPlainText(db.get_search_info())
+        self.checkWhatRadioButton()
+        if self.data.address != '':
+            print(self.fieldAdressShow)
+            self.fieldAdressShow.setPlainText(self.data.address)
+        if db.get_checkbox_index() == 1:
+            self.checkboxIndex.setChecked(True)
+            self.resetPostalCode()
+
+    def checkWhatRadioButton(self):
+        if self.data.display == 'map':
+            self.radioButtonScheme.setChecked(True)
+        elif self.data.display == 'sat':
+            self.radioButtonSatellite.setChecked(True)
+        elif self.data.display == 'sat,skl':
+            self.radioButtonHybrid.setChecked(True)
 
     def getPicture(self):
         response = specfunctions.get_place_map(self.data)
@@ -75,8 +92,6 @@ class MainWindow(QMainWindow):
         self.map.setPixmap(pixmap)
 
     def showMessage(self, action, text):
-        print('q')
-        """сообщение пользователю"""
         if action == 'reqerror':
             QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
 
@@ -209,9 +224,7 @@ class MainWindow(QMainWindow):
 
     def getPostalCode(self, toponym):
         try:
-            self.data.postal_code = toponym['metaDataProperty'][
-                'GeocoderMetaData'
-            ]['Address']['postal_code']
+            self.data.postal_code = toponym['metaDataProperty']['GeocoderMetaData']['Address']['postal_code']
         except Exception as e:
             self.e = e
             self.data.postal_code = ''
@@ -237,14 +250,11 @@ class MainWindow(QMainWindow):
         y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
 
         if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
-            print('here')
-            spn_x = self.data.spn / 300 * (mouse_pos[0] - x1)
-            spn_y = self.data.spn / 220 * (mouse_pos[1] - y1)
-            print(spn_x, spn_y)
+            spn_x = self.data.spn / 309.5 * (mouse_pos[0] - x1)
+            spn_y = self.data.spn / 214.5 * (mouse_pos[1] - y1)
 
             coord_1 = self.data.coords[0] - self.data.spn + spn_x
             coord_2 = self.data.coords[1] + self.data.spn - spn_y
-            print(coord_1, coord_2)
 
             return coord_1, coord_2
         else:
@@ -293,6 +303,9 @@ class MainWindow(QMainWindow):
             self.searchOrganization((event.x(), event.y()))
 
     def closeEvent(self, event: QCloseEvent):
+        db.write_data(self.data.spn, self.data.coords, self.data.display, self.data.pt, self.data.postal_code,
+                      self.data.address, --self.checkboxIndex.isChecked(), self.fieldSearch.toPlainText().strip())
+        db.con.close()
         os.remove('data/image.png')
 
 
