@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
             self.setPicture(response)
         else:
             self.showMessage(
-                'reqerror',
+                'req_error',
                 f'Ошибка запроса: {response.status_code}. '
                 f'Причина: {response.reason}, {response.request.url}',
             )
@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         self.map.setPixmap(pixmap)
 
     def showMessage(self, action, text):
-        if action == 'reqerror':
+        if action == 'req_error':
             QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
 
     def leftArrowClicked(self):
@@ -180,26 +180,33 @@ class MainWindow(QMainWindow):
 
     def searchPlace(self, coords):
         place = self.fieldSearch.toPlainText().strip()
-        if coords:
-            toponym = specfunctions.get_place_toponym(None, coords)
-        elif place:
-            toponym = specfunctions.get_place_toponym(place)
-        else:
-            toponym = None
-
-        if toponym:
-            toponym = toponym.json()['response']['GeoObjectCollection'][
-                'featureMember'
-            ][0]['GeoObject']
+        try:
             if coords:
-                self.setPlace(toponym, coords)
+                toponym = specfunctions.get_place_toponym(None, coords)
+            elif place:
+                toponym = specfunctions.get_place_toponym(place)
             else:
-                self.setPlace(toponym)
-        else:
+                toponym = None
+
+            if toponym:
+                toponym = toponym.json()['response']['GeoObjectCollection'][
+                    'featureMember'
+                ][0]['GeoObject']
+                if coords:
+                    self.setPlace(toponym, coords)
+                else:
+                    self.setPlace(toponym)
+            else:
+                self.showMessage(
+                    'req_error',
+                    f'Ошибка запроса: {toponym.status_code}.'
+                    f' Причина: {toponym.reason}',
+                )
+        except Exception as e:
+            self.e = e
             self.showMessage(
-                'reqerror',
-                f'Ошибка запроса: {toponym.status_code}.'
-                f' Причина: {toponym.reason}',
+                'req_error',
+                f'Ошибка! Местоположение по запросу [{place}] не найдено.'
             )
 
     def setPlace(self, toponym, coords=''):
@@ -291,7 +298,7 @@ class MainWindow(QMainWindow):
                     return
             else:
                 self.showMessage(
-                    'reqerror',
+                    'req_error',
                     f'Ошибка запроса: {response.status_code}. '
                     f'Причина: {response.reason}, {response.request.url}',
                 )
