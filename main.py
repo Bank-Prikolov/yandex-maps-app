@@ -80,11 +80,12 @@ class MainWindow(QMainWindow):
         if response:
             self.setPicture(response)
         else:
+            print(response.request.url)
             self.showMessage(
                 'req_error',
-                f'Ошибка запроса: {response.status_code}. '
-                f'Причина: {response.reason}, {response.request.url}',
-            )
+                f'Ошибка запроса: {response.status_code}\n'
+                f'Причина: {response.reason}',
+                )
 
     def setPicture(self, response):
         with open('data/image.png', 'wb') as file:
@@ -200,14 +201,14 @@ class MainWindow(QMainWindow):
             else:
                 self.showMessage(
                     'req_error',
-                    f'Ошибка запроса: {toponym.status_code}.'
-                    f' Причина: {toponym.reason}',
+                    f'Ошибка запроса: {toponym.status_code}\n'
+                    f'Причина: {toponym.reason}',
                 )
         except Exception as e:
             self.e = e
             self.showMessage(
                 'req_error',
-                f'Ошибка! Местоположение по запросу [{place}] не найдено.'
+                f'Ошибка запроса! Местоположение по запросу "{place}" не найдено.'
             )
 
     def setPlace(self, toponym, coords=''):
@@ -252,42 +253,42 @@ class MainWindow(QMainWindow):
         else:
             self.fieldAdressShow.setPlainText(self.data.address)
 
-    def mouseToCoords(self, pos):
-        import math
-        print(self.data.coords)
-        dx = pos[0] - self.map.pos().x() - (self.map.pos().x() + 629) / 2
-        # dy = 400 - pos[1]
-        lx = self.data.coords[0] + dx * self.data.spn
-        # ly = self.data.coords[1] + dy * (self.data.spn) * math.cos(math.radians(self.data.coords[1])) * 2 ** (-5)
-        ly = self.data.coords[1]
-        print(lx, round(ly, 6))
-        return round(lx, 6), round(ly, 6)
-
-    coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
-
-    def screen_to_geo(pos):
-        dy = 225 - pos[1]
-        dx = pos[0] - 300
-        lx = longitude + dx * coord_to_geo_x * 2
-        ly = lattitude + dy * coord_to_geo_y * math.cos(math.radians(lattitude)) * 2
-
-        return round(lx, 6), round(ly, 6)
-
-    # def mouseToCoords(self, mouse_pos):
-    #     x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
-    #     y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
-    #     print(self.data.spn)
+    # def mouseToCoords(self, pos):
+    #     import math
+    #     print(self.data.coords)
+    #     dx = pos[0] - self.map.pos().x() - (self.map.pos().x() + 629) / 2
+    #     # dy = 400 - pos[1]
+    #     lx = self.data.coords[0] + dx * self.data.spn
+    #     # ly = self.data.coords[1] + dy * (self.data.spn) * math.cos(math.radians(self.data.coords[1])) * 2 ** (-5)
+    #     ly = self.data.coords[1]
+    #     print(lx, round(ly, 6))
+    #     return round(lx, 6), round(ly, 6)
     #
-    #     if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
-    #         spn_x = self.data.spn / 309.5 * (mouse_pos[0] - x1)
-    #         spn_y = self.data.spn / 214.5 * (mouse_pos[1] - y1)
+    # coord_to_geo_x, coord_to_geo_y = 0.0000428, 0.0000428
     #
-    #         coord_1 = self.data.coords[0] - self.data.spn + spn_x
-    #         coord_2 = self.data.coords[1] + self.data.spn - spn_y
+    # def screen_to_geo(pos):
+    #     dy = 225 - pos[1]
+    #     dx = pos[0] - 300
+    #     lx = longitude + dx * coord_to_geo_x * 2
+    #     ly = lattitude + dy * coord_to_geo_y * math.cos(math.radians(lattitude)) * 2
     #
-    #         return round(coord_1, 6), round(coord_2, 6)
-    #     else:
-    #         return False, False
+    #     return round(lx, 6), round(ly, 6)
+
+    def mouseToCoords(self, mouse_pos):
+        x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
+        y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
+        print(self.data.spn)
+
+        if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
+            spn_x = self.data.spn / 309.5 * (mouse_pos[0] - x1)
+            spn_y = self.data.spn / 214.5 * (mouse_pos[1] - y1)
+
+            coord_1 = self.data.coords[0] - self.data.spn + spn_x
+            coord_2 = self.data.coords[1] + self.data.spn - spn_y
+
+            return round(coord_1, 6), round(coord_2, 6)
+        else:
+            return False, False
 
     def searchPlaceClick(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
@@ -319,10 +320,11 @@ class MainWindow(QMainWindow):
                     self.e = e
                     return
             else:
+                print(response.request.url)
                 self.showMessage(
                     'req_error',
-                    f'Ошибка запроса: {response.status_code}. '
-                    f'Причина: {response.reason}, {response.request.url}',
+                    f'Ошибка запроса: {response.status_code}\n'
+                    f'Причина: {response.reason}',
                 )
 
     def mousePressEvent(self, event: QMouseEvent):
