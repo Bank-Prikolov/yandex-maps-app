@@ -265,6 +265,13 @@ class MainWindow(QMainWindow):
         else:
             return False, False
 
+
+    def mouseToCoords(self, mouse_pos):
+        print(self.data.coords, self.data.z)
+        xmetka = (self.map.pos().x() + 619 - self.map.pos().x() // 2 + 1) - (mouse_pos[0] - self.map.pos().x())
+        x = self.data.coords[0] + xmetka * 360 / (2 ** (self.data.z + 8))
+        return x, 54.782635
+
     def searchPlaceClick(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
         if coord_1:
