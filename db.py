@@ -12,7 +12,7 @@ def firstTime():
         """)
     cur.execute("""
             INSERT INTO MapsData (id, spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo) 
-            VALUES (1, 0.003, '32.095323, 54.769680', 'map', '', 10, '', '', 0, '')
+            VALUES (1, 0.003, '32.095323, 54.769680', 'map', '', 16, '', '', 0, '')
             ON CONFLICT (id) DO NOTHING
         """)
     con.commit()

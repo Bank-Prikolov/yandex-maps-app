@@ -127,23 +127,37 @@ class MainWindow(QMainWindow):
             self.getPicture()
 
     def plusClicked(self):
-        self.data.z += 1
+        if self.data.spn != 0.002:
+            self.data.spn = max(self.data.spn / 2, 0.002)
+            self.getPicture()
+        if self.data.z > 0:
+            self.data.z += 1
         self.getPicture()
 
     def minusClicked(self):
-        self.data.z -= 1
+        if self.data.spn != 89:
+            self.data.spn = min(self.data.spn * 2, 89)
+        if self.data.z <= 21:
+            self.data.z -= 1
         self.getPicture()
 
     def keyPressEvent(self, event: QKeyEvent):
         key = event.key()
 
         if key == Qt.Key.Key_PageUp:
-            self.data.z += 1
-
-        elif key == Qt.Key.Key_PageDown:
             if self.data.spn != 0.002:
                 self.data.spn = max(self.data.spn / 2, 0.002)
                 self.getPicture()
+            if self.data.z > 0:
+                self.data.z += 1
+            self.getPicture()
+
+        elif key == Qt.Key.Key_PageDown:
+            if self.data.spn != 89:
+                self.data.spn = min(self.data.spn * 2, 89)
+            if self.data.z <= 21:
+                self.data.z -= 1
+            self.getPicture()
 
         elif key == Qt.Key.Key_W:
             self.data.coords[1] += self.data.spn
@@ -253,24 +267,13 @@ class MainWindow(QMainWindow):
     def mouseToCoords(self, mouse_pos):
         x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
         y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
-        print(self.data.coords)
         if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
             coordX = 360 / (2 ** (self.data.z + 8))
             coordY = math.cos(math.radians(self.data.coords[1])) * 360 / (2 ** (self.data.z + 8))
-            print(coordX, coordY)
-            print(coordX * (mouse_pos[0] - x1), coordY * (mouse_pos[1] - y1))
-            print(self.data.coords[0] + coordX * ((mouse_pos[0] - x1) - self.data.coords[0]), self.data.coords[1] + coordY * ((mouse_pos[1] - y1) - self.data.coords[1]))
-
-            return self.data.coords[0] + coordX * (mouse_pos[0] - x1), self.data.coords[1] + coordY * (mouse_pos[1] - y1)
+            return (self.data.coords[0] + coordX * (mouse_pos[0]) - (coordX * (x1 + x2 / 2)),
+                    self.data.coords[1] - coordY * (mouse_pos[1] - y1) + (coordY * (y1 + y2 / 3)))
         else:
             return False, False
-
-
-    def mouseToCoords(self, mouse_pos):
-        print(self.data.coords, self.data.z)
-        xmetka = (self.map.pos().x() + 619 - self.map.pos().x() // 2 + 1) - (mouse_pos[0] - self.map.pos().x())
-        x = self.data.coords[0] + xmetka * 360 / (2 ** (self.data.z + 8))
-        return x, 54.782635
 
     def searchPlaceClick(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
