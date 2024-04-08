@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         self.buttonBottomArrow.clicked.connect(self.bottomArrowClicked)
         self.buttonPlus.clicked.connect(self.plusClicked)
         self.buttonMinus.clicked.connect(self.minusClicked)
-        self.getPicture()
+        self.getMapPicture()
 
     def setupData(self):
         self.data = MapsData()
@@ -60,15 +60,14 @@ class MainWindow(QMainWindow):
         }
         if db.get_search_info() != '':
             self.fieldSearch.setPlainText(db.get_search_info())
-        self.checkWhatRadioButton()
+        self.checkWhatMapType()
         if self.data.address != '':
-            # print(self.fieldAdressShow)
             self.fieldAdressShow.setPlainText(self.data.address)
         if db.get_checkbox_index() == 1:
             self.checkboxIndex.setChecked(True)
             self.resetPostalCode()
 
-    def checkWhatRadioButton(self):
+    def checkWhatMapType(self):
         if self.data.display == 'map':
             self.radioButtonScheme.setChecked(True)
         elif self.data.display == 'sat':
@@ -76,120 +75,121 @@ class MainWindow(QMainWindow):
         elif self.data.display == 'sat,skl':
             self.radioButtonHybrid.setChecked(True)
 
-    def getPicture(self):
+    def getMapPicture(self):
         response = specfunctions.get_place_map(self.data)
         if response:
-            self.setPicture(response)
+            self.setMapPicture(response)
         else:
             print(response.request.url)
-            self.showMessage(
+            self.showErrorMessage(
                 'req_error',
                 f'Ошибка запроса: {response.status_code}\n'
                 f'Причина: {response.reason}',
             )
 
-    def setPicture(self, response):
+    def setMapPicture(self, response):
         with open('data/image.png', 'wb') as file:
             file.write(response.content)
         pixmap = QPixmap('data/image.png')
         self.map.setPixmap(pixmap)
 
-    def showMessage(self, action, text):
+    def showErrorMessage(self, action, text):
         if action == 'req_error':
             QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
 
     def leftArrowClicked(self):
         self.data.coords[0] -= self.data.spn
+        print(self.data.coords[0])
         if self.data.coords[0] < 1:
             self.data.coords[0] = min(self.data.spn, 1)
         else:
-            self.getPicture()
+            self.getMapPicture()
 
     def rightArrowClicked(self):
         self.data.coords[0] += self.data.spn
         if self.data.coords[0] > 179:
             self.data.coords[0] = 179
         else:
-            self.getPicture()
+            self.getMapPicture()
 
     def topArrowClicked(self):
         self.data.coords[1] += self.data.spn
         if self.data.coords[1] > 85:
             self.data.coords[1] = 85
         else:
-            self.getPicture()
+            self.getMapPicture()
 
     def bottomArrowClicked(self):
         self.data.coords[1] -= self.data.spn
         if self.data.coords[1] < 1:
             self.data.coords[1] = min(self.data.spn, 1)
         else:
-            self.getPicture()
+            self.getMapPicture()
 
     def plusClicked(self):
-        if self.data.spn != 0.002:
-            self.data.spn = max(self.data.spn / 2, 0.002)
-            self.getPicture()
-        if self.data.z > 0:
+        print(self.data.z)
+        if self.data.z < 21:
+            if self.data.spn != 0.002:
+                self.data.spn = max(self.data.spn / 2, 0.002)
             self.data.z += 1
-        self.getPicture()
+        self.getMapPicture()
 
     def minusClicked(self):
-        if self.data.spn != 89:
-            self.data.spn = min(self.data.spn * 2, 89)
-        if self.data.z <= 21:
+        print(self.data.z)
+        if self.data.z > 3:
             self.data.z -= 1
-        self.getPicture()
+            if self.data.spn != 89:
+                self.data.spn = min(self.data.spn * 2, 89)
+        self.getMapPicture()
 
     def keyPressEvent(self, event: QKeyEvent):
         key = event.key()
 
         if key == Qt.Key.Key_PageUp:
-            if self.data.spn != 0.002:
-                self.data.spn = max(self.data.spn / 2, 0.002)
-                self.getPicture()
-            if self.data.z > 0:
+            if self.data.z < 21:
+                if self.data.spn != 0.002:
+                    self.data.spn = max(self.data.spn / 2, 0.002)
                 self.data.z += 1
-            self.getPicture()
+            self.getMapPicture()
 
         elif key == Qt.Key.Key_PageDown:
-            if self.data.spn != 89:
-                self.data.spn = min(self.data.spn * 2, 89)
-            if self.data.z <= 21:
+            if self.data.z > 3:
                 self.data.z -= 1
-            self.getPicture()
+                if self.data.spn != 89:
+                    self.data.spn = min(self.data.spn * 2, 89)
+            self.getMapPicture()
 
         elif key == Qt.Key.Key_W:
             self.data.coords[1] += self.data.spn
             if self.data.coords[1] > 85:
                 self.data.coords[1] = 85
             else:
-                self.getPicture()
+                self.getMapPicture()
 
         elif key == Qt.Key.Key_S:
             self.data.coords[1] -= self.data.spn
             if self.data.coords[1] < 1:
                 self.data.coords[1] = min(self.data.spn, 1)
             else:
-                self.getPicture()
+                self.getMapPicture()
 
         elif key == Qt.Key.Key_D:
             self.data.coords[0] += self.data.spn
             if self.data.coords[0] > 179:
                 self.data.coords[0] = 179
             else:
-                self.getPicture()
+                self.getMapPicture()
 
         elif key == Qt.Key.Key_A:
             self.data.coords[0] -= self.data.spn
             if self.data.coords[0] < 1:
                 self.data.coords[0] = min(self.data.spn, 1)
             else:
-                self.getPicture()
+                self.getMapPicture()
 
     def chooseMapType(self, button: QRadioButton):
         self.data.display = self.map_type_choices[button.text()]
-        self.getPicture()
+        self.getMapPicture()
 
     def searchPlace(self, coords):
         place = self.fieldSearch.toPlainText().strip()
@@ -210,14 +210,14 @@ class MainWindow(QMainWindow):
                 else:
                     self.setPlace(toponym)
             else:
-                self.showMessage(
+                self.showErrorMessage(
                     'req_error',
                     f'Ошибка запроса: {toponym.status_code}\n'
                     f'Причина: {toponym.reason}',
                 )
         except Exception as e:
             self.e = e
-            self.showMessage(
+            self.showErrorMessage(
                 'req_error',
                 f'Ошибка запроса! Местоположение по запросу "{place}" не найдено.'
             )
@@ -238,7 +238,7 @@ class MainWindow(QMainWindow):
             self.data.pt = coords + ',pm2ntm'
         self.data.address = toponym_address
 
-        self.getPicture()
+        self.getMapPicture()
         self.getPostalCode(toponym)
         self.resetPostalCode()
 
@@ -254,7 +254,7 @@ class MainWindow(QMainWindow):
         self.data.postal_code = ''
         self.data.address = ''
         self.fieldAdressShow.setPlainText('')
-        self.getPicture()
+        self.getMapPicture()
 
     def resetPostalCode(self):
         if self.checkboxIndex.isChecked() and self.data.postal_code:
@@ -270,8 +270,8 @@ class MainWindow(QMainWindow):
         if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
             coordX = 360 / (2 ** (self.data.z + 8))
             coordY = math.cos(math.radians(self.data.coords[1])) * 360 / (2 ** (self.data.z + 8))
-            return (self.data.coords[0] + coordX * (mouse_pos[0]) - (coordX * (x1 + x2 / 2)),
-                    self.data.coords[1] - coordY * (mouse_pos[1] - y1) + (coordY * (y1 + y2 / 3)))
+            return (self.data.coords[0] + coordX * (mouse_pos[0]) - (coordX * (x1 + x2 / 2 - 2)),
+                    self.data.coords[1] - coordY * (mouse_pos[1] - y1) + (coordY * (y1 + y2 / 3 - 5)))
         else:
             return False, False
 
@@ -292,21 +292,18 @@ class MainWindow(QMainWindow):
                     org_address = organization['properties']['CompanyMetaData']['address']
                     coords = organization['geometry']['coordinates']
 
-                    print(specfunctions.lonlat_distance(self.data.coords, coords))
                     if specfunctions.lonlat_distance(self.data.coords, coords) <= 50:
                         self.data.pt = ','.join(list(map(str, coords))) + ',pm2vvm'
-                        print(self.data.pt)
                         self.data.postal_code = ''
                         self.data.address = org_name + '\n' + org_address
-                        print(self.data.address)
-                        self.getPicture()
+                        self.getMapPicture()
                         self.resetPostalCode()
                 except Exception as e:
                     self.e = e
                     return
             else:
                 print(response.request.url)
-                self.showMessage(
+                self.showErrorMessage(
                     'req_error',
                     f'Ошибка запроса: {response.status_code}\n'
                     f'Причина: {response.reason}',

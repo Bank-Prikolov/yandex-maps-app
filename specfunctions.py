@@ -1,13 +1,13 @@
 import os
 import requests
 import math
+import main
 
 
 def get_place_map(data):
     map_params = {
         'll': ','.join(list(map(str, data.coords))),
         'l': data.display,
-        # 'spn': f'{data.spn},{data.spn}',
         'pt': data.pt,
         'size': '619,429',
         'z': str(data.z),
@@ -37,12 +37,12 @@ def get_place_toponym(place_name=None, coords=None):
 def get_organization(coords):
     search_params = {
         'apikey': os.getenv('ORGANIZATION_API_KEY'),
-        'text': 'OOO',
+        'text': 'organization',
         'lang': 'ru_RU',
         'll': coords,
         'type': 'biz',
-        'results': 1,
         'rspn': 1,
+        'results': 1,
     }
 
     search_api_server = 'https://search-maps.yandex.ru/v1/'
@@ -61,3 +61,6 @@ def lonlat_distance(a, b):
     dy = abs(a_lat - b_lat) * degree_to_meters_factor
     distance = math.sqrt(dx * dx + dy * dy)
     return distance
+
+
+
