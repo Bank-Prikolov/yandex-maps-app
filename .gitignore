@@ -1,5 +1,5 @@
 .idea
 data/image.png
 data/db.sqlite
-project product/image.png
-project product/db.sqlite
+project product/data/image.png
+project product/data/db.sqlite
