@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --name "Yandex Maps Widget" --icon "data\icon.ico" main.py

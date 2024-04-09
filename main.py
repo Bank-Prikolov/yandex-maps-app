@@ -42,7 +42,7 @@ class MainWindow(QMainWindow):
         self.setupData()
         self.setWindowTitle('Yandex Maps Widget')
         self.setFixedSize(870, 504)
-        self.setWindowIcon(QIcon('data/icon.png'))
+        self.setWindowIcon(QIcon('data/icon.ico'))
         self.mapTypeGroup.buttonClicked.connect(self.chooseMapType)
         self.buttonSearch.clicked.connect(self.searchPlace)
         self.buttonClearResults.clicked.connect(self.clearSearchResult)
