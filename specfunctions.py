@@ -1,10 +1,10 @@
 import os
 import requests
 import math
-import main
+from geopy.distance import geodesic
 
 
-def get_place_map(data):
+def get_map(data):
     map_params = {
         'll': ','.join(list(map(str, data.coords))),
         'l': data.display,
@@ -15,11 +15,10 @@ def get_place_map(data):
 
     map_api_server = 'http://static-maps.yandex.ru/1.x/'
     response = requests.get(map_api_server, params=map_params)
-    print(response.url)
     return response
 
 
-def get_place_toponym(place_name=None, coords=None):
+def get_toponym(place_name=None, coords=None):
     geocoder_params = {
         'apikey': os.getenv('GEOCODER_API_KEY'),
         'format': 'json',
@@ -34,10 +33,10 @@ def get_place_toponym(place_name=None, coords=None):
     return response
 
 
-def get_organization(coords):
+def get_organization(coords, text):
     search_params = {
         'apikey': os.getenv('ORGANIZATION_API_KEY'),
-        'text': 'organization',
+        'text': str(text),
         'lang': 'ru_RU',
         'll': coords,
         'type': 'biz',
@@ -47,20 +46,16 @@ def get_organization(coords):
 
     search_api_server = 'https://search-maps.yandex.ru/v1/'
     response = requests.get(search_api_server, params=search_params)
-    print(response.json())
     return response
 
 
-def lonlat_distance(a, b):
-    degree_to_meters_factor = 111 * 1000
-    a_lon, a_lat = a
-    b_lon, b_lat = b
-    radians_lattitude = math.radians((a_lat + b_lat) / 2.0)
-    lat_lon_factor = math.cos(radians_lattitude)
-    dx = abs(a_lon - b_lon) * degree_to_meters_factor * lat_lon_factor
-    dy = abs(a_lat - b_lat) * degree_to_meters_factor
-    distance = math.sqrt(dx * dx + dy * dy)
+def degrees_to_pixels(coord1, z):
+    coordX = 360 / (2 ** (z + 8))
+    coordY = math.cos(math.radians(coord1)) * 360 / (2 ** (z + 8))
+    return coordX, coordY
+
+
+def ab_distance(a, b):
+    a, b = tuple(a), tuple(b)
+    distance = geodesic(a, b).meters
     return distance
-
-
-
