@@ -123,13 +123,12 @@ class MainWindow(QMainWindow):
 
     def bottomArrowClicked(self):
         self.data.coords[1] -= self.data.spn
-        if self.data.coords[1] < -80:
-            self.data.coords[1] = min(self.data.spn, -80)
+        if self.data.coords[1] < -85:
+            self.data.coords[1] = -85
         else:
             self.getMapPicture()
 
     def plusClicked(self):
-        print(self.data.z)
         if self.data.z < 21:
             if self.data.spn != 0.002:
                 self.data.spn = max(self.data.spn / 2, 0.002)
@@ -137,7 +136,6 @@ class MainWindow(QMainWindow):
         self.getMapPicture()
 
     def minusClicked(self):
-        print(self.data.z)
         if self.data.z > 3:
             self.data.z -= 1
             if self.data.spn != 89:
@@ -165,14 +163,14 @@ class MainWindow(QMainWindow):
         elif key == Qt.Key.Key_W:
             self.data.coords[1] += self.data.spn
             if self.data.coords[1] > 85:
-                self.data.coords[1] = -85
+                self.data.coords[1] = 85
             else:
                 self.getMapPicture()
 
         elif key == Qt.Key.Key_S:
             self.data.coords[1] -= self.data.spn
-            if self.data.coords[1] < -80:
-                self.data.coords[1] = 80
+            if self.data.coords[1] < -85:
+                self.data.coords[1] = -85
             else:
                 self.getMapPicture()
 
