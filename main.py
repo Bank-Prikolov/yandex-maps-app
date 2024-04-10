@@ -28,6 +28,7 @@ class MapsData:
 
 
 class MainWindow(QMainWindow):
+    # инициализация
     def __init__(self):
         super(QMainWindow, self).__init__()
         self.data = None
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
         self.buttonMinus.clicked.connect(self.minusClicked)
         self.getMapPicture()
 
-    # настройка данных
+    # получение и обработка данных
     def setupData(self):
         self.data = MapsData()
         self.map_type_choices = {
@@ -198,7 +199,7 @@ class MainWindow(QMainWindow):
         else:
             self.searchOrganization((event.x(), event.y()))
 
-    # перевод координат
+    # перевод координат окна в координаты карты
     def mouseToCoords(self, mouse_pos):
         x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
         y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
