@@ -1,6 +1,6 @@
 import os
-import requests
 import math
+import requests
 from geopy.distance import geodesic
 
 

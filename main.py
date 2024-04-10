@@ -97,9 +97,9 @@ class MainWindow(QMainWindow):
 
     # установка карты
     def setMapPicture(self, response):
-        with open('data/image.png', 'wb') as file:
+        with open('data/map-image.png', 'wb') as file:
             file.write(response.content)
-        pixmap = QPixmap('data/image.png')
+        pixmap = QPixmap('data/map-image.png')
         self.map.setPixmap(pixmap)
 
     # обработка нажатия кнопок
@@ -329,7 +329,7 @@ class MainWindow(QMainWindow):
                       self.data.postal_code, self.data.address, --self.checkboxIndex.isChecked(),
                       self.fieldSearch.toPlainText().strip())
         db.con.close()
-        os.remove('data/image.png')
+        os.remove('data/map-image.png')
 
 
 # ошибки PyQT
