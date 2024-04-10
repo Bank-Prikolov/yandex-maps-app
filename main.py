@@ -131,8 +131,8 @@ class MainWindow(QMainWindow):
 
     def plusClicked(self):
         if self.data.z < 21:
-            self.data.spn = self.data.spn / 2
             self.data.z += 1
+            self.data.spn = self.data.spn / 2
         self.getMapPicture()
 
     def minusClicked(self):
@@ -147,8 +147,8 @@ class MainWindow(QMainWindow):
 
         if key == Qt.Key.Key_PageUp:
             if self.data.z < 21:
-                self.data.spn = self.data.spn / 2
                 self.data.z += 1
+                self.data.spn = self.data.spn / 2
             self.getMapPicture()
 
         elif key == Qt.Key.Key_PageDown:
