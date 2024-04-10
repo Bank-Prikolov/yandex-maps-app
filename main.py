@@ -147,29 +147,27 @@ class MainWindow(QMainWindow):
 
         if key == Qt.Key.Key_PageUp:
             if self.data.z < 21:
-                if self.data.spn != 0.002:
-                    self.data.spn = max(self.data.spn / 2, 0.002)
+                self.data.spn = self.data.spn / 2
                 self.data.z += 1
             self.getMapPicture()
 
         elif key == Qt.Key.Key_PageDown:
             if self.data.z > 3:
                 self.data.z -= 1
-                if self.data.spn != 89:
-                    self.data.spn = min(self.data.spn * 2, 89)
+                self.data.spn = self.data.spn * 2
             self.getMapPicture()
 
         elif key == Qt.Key.Key_W:
             self.data.coords[1] += self.data.spn
-            if self.data.coords[1] > 85:
-                self.data.coords[1] = 85
+            if self.data.coords[1] > 79.34568:
+                self.data.coords[1] = 79.34568
             else:
                 self.getMapPicture()
 
         elif key == Qt.Key.Key_S:
             self.data.coords[1] -= self.data.spn
-            if self.data.coords[1] < -85:
-                self.data.coords[1] = -85
+            if self.data.coords[1] < -68.11032:
+                self.data.coords[1] = -68.11032
             else:
                 self.getMapPicture()
 
