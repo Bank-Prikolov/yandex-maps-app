@@ -1,5 +1,3 @@
 .idea
 data/db.sqlite
 data/map-image.png
-project product/data/db.sqlite
-project product/data/map-image.png
