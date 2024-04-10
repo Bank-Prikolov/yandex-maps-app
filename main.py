@@ -117,30 +117,28 @@ class MainWindow(QMainWindow):
 
     def topArrowClicked(self):
         self.data.coords[1] += self.data.spn
-        if self.data.coords[1] > 85:
-            self.data.coords[1] = 85
+        if self.data.coords[1] > 79.34568:
+            self.data.coords[1] = 79.34568
         else:
             self.getMapPicture()
 
     def bottomArrowClicked(self):
         self.data.coords[1] -= self.data.spn
-        if self.data.coords[1] < -85:
-            self.data.coords[1] = -85
+        if self.data.coords[1] < -68.11032:
+            self.data.coords[1] = -68.11032
         else:
             self.getMapPicture()
 
     def plusClicked(self):
         if self.data.z < 21:
-            if self.data.spn != 0.002:
-                self.data.spn = max(self.data.spn / 2, 0.002)
+            self.data.spn = self.data.spn / 2
             self.data.z += 1
         self.getMapPicture()
 
     def minusClicked(self):
         if self.data.z > 3:
             self.data.z -= 1
-            if self.data.spn != 89:
-                self.data.spn = min(self.data.spn * 2, 89)
+            self.data.spn = self.data.spn * 2
         self.getMapPicture()
 
     # обработка нажатия клавиш
@@ -270,7 +268,7 @@ class MainWindow(QMainWindow):
             self.e = e
             self.data.postal_code = ''
 
-    # сброс
+    # сброс местоположения по последнему запросу/клику
     def clearSearchResult(self):
         self.data.pt = ''
         self.data.postal_code = ''
