@@ -1,3 +1,6 @@
 .idea
-data/db.sqlite
-data/map-image.png
+.venv
+
+.env
+assets/db.sqlite
+assets/map-image.png
