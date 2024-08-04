@@ -13,6 +13,6 @@ def get_organization(coords, text):
         'rspn': 1,
         'results': 1,
     }
-    search_api_server = 'https://search-maps.yandex.ru/v1/'
+    search_api_server = 'http://search-maps.yandex.ru/v1/'
     response = requests.get(search_api_server, params=search_params, timeout=300)
     return response
