@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>870</width>
+    <height>504</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+	width: 60px;
+	height: 23px;
+    background-color: rgb(85, 85, 127);
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(65, 65, 100);  
+}
+
+QPushButton:pressed {
+	background-color: rgb(65, 65, 100);
+    border: 2px solid rgb(255, 255, 255);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QRadioButton {
+	font-size: 14px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton {
+	font: 81 8pt &quot;Rockwell Extra Bold&quot;;
+    background-color: rgb(85, 85, 127);
+	border: 2px solid rgb(255, 255, 255);
+	border-radius: 10px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(65, 65, 100);  
+}
+
+QPushButton:pressed {
+	background-color: rgb(65, 65, 100);
+    border: 3px solid rgb(255, 255, 255);
+}</string>
+   </property>
+   <widget class="QLabel" name="map">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>621</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonClearResults">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>450</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>Сброс  результата</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonSearch">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>10</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+</string>
+    </property>
+    <property name="text">
+     <string>ПОИСК</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="fieldSearch">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>781</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;
+font-size: 20px;
+color: rgb(255, 255, 255);
+</string>
+    </property>
+    <property name="plainText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelAdress">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>60</y>
+      <width>221</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelMapType">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>210</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="textMapType">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>220</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+font-weight: bold;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Вид карты:</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonSatellite">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>270</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Спутник</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonHybrid">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>290</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Гибрид</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonScheme">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>250</y>
+      <width>82</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Схема</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">mapTypeGroup</string>
+    </attribute>
+   </widget>
+   <widget class="Line" name="lineHorizontal">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>240</y>
+      <width>90</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkboxIndex">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>170</y>
+      <width>161</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+font-weight: bold;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Почтовый индекс</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="textFullAdress">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>70</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+font-weight: bold;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Полный адрес:</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="fieldAddressShow">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>90</y>
+      <width>201</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;
+font-size: 14px;
+font-weight: bold;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="undoRedoEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelMapButtons">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>330</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonLeftArrow">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>370</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 20px;</string>
+    </property>
+    <property name="text">
+     <string>◀</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonTopArrow">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>▲</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonBottomArrow">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>400</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>▼</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonRightArrow">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>370</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 20px;</string>
+    </property>
+    <property name="text">
+     <string>▶</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonPlus">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>350</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 16px;</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonMinus">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>390</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 16px;</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MagnifyingGlass">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>350</y>
+      <width>51</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 35px;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>🔍︎</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelMapButtons_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>330</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonInfo">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>450</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 15px;</string>
+    </property>
+    <property name="text">
+     <string>i</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelLang">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>210</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 85, 127, 200);
+border: 2px solid rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonRus">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>290</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Бел</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">langGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonEng">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>270</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Англ</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">langGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonBel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>250</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Рус</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">langGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QLabel" name="textLang">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>220</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+font-weight: bold;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Язык:</string>
+    </property>
+   </widget>
+   <widget class="Line" name="lineHorizontal_2">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>240</y>
+      <width>90</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <zorder>labelMapButtons_2</zorder>
+   <zorder>map</zorder>
+   <zorder>buttonClearResults</zorder>
+   <zorder>buttonSearch</zorder>
+   <zorder>fieldSearch</zorder>
+   <zorder>labelAdress</zorder>
+   <zorder>labelMapType</zorder>
+   <zorder>textMapType</zorder>
+   <zorder>radioButtonSatellite</zorder>
+   <zorder>radioButtonHybrid</zorder>
+   <zorder>radioButtonScheme</zorder>
+   <zorder>lineHorizontal</zorder>
+   <zorder>checkboxIndex</zorder>
+   <zorder>textFullAdress</zorder>
+   <zorder>fieldAddressShow</zorder>
+   <zorder>labelMapButtons</zorder>
+   <zorder>buttonLeftArrow</zorder>
+   <zorder>buttonTopArrow</zorder>
+   <zorder>buttonBottomArrow</zorder>
+   <zorder>buttonRightArrow</zorder>
+   <zorder>buttonPlus</zorder>
+   <zorder>buttonMinus</zorder>
+   <zorder>MagnifyingGlass</zorder>
+   <zorder>buttonInfo</zorder>
+   <zorder>labelLang</zorder>
+   <zorder>radioButtonRus</zorder>
+   <zorder>radioButtonEng</zorder>
+   <zorder>radioButtonBel</zorder>
+   <zorder>textLang</zorder>
+   <zorder>lineHorizontal_2</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="mapTypeGroup"/>
+  <buttongroup name="langGroup"/>
+ </buttongroups>
+</ui>
