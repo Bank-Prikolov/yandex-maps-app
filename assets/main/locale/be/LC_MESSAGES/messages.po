@@ -42,7 +42,7 @@ msgstr "Схема"
 
 #: MainWindow%238
 msgid "Почтовый индекс"
-msgstr ""
+msgstr "Паштовы індэкс"
 
 #: MainWindow%239
 msgid "Полный адрес:"

@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
-from misc import except_hook, check_screeninfo
 from windows import MainWindow
+from misc import except_hook, check_screeninfo
 
 
 if __name__ == '__main__':
