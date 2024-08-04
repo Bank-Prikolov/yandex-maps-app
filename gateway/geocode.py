@@ -5,7 +5,7 @@ from config import YandexApisConfig
 
 def get_toponym(language, place_name=None, coords=None):
     if language == 'en':
-        lang = 'en_US'
+        lang = 'en_RU'
     elif language == 'ru':
         lang = 'ru_RU'
     else:

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QRadioButton, QMessageBox
 
 from data import MapsData
 from gateway import get_map, get_toponym, get_organization
-from misc import degrees_to_pixels, ab_distance, translate, terminate
+from misc import degrees_to_pixels, ab_distance, format_exception, translate, terminate
 from .about import AboutWindow
 
 
@@ -95,11 +95,10 @@ class MainWindow(QMainWindow):
         if response:
             self.setMapPicture(response)
         else:
-            print(response.request.url)
+            exception = format_exception('req_error', self.data.lang, error=response.status_code,
+                                     reason=response.reason)
             self.showErrorMessage(
-                'req_error',
-                f'Ошибка запроса: {response.status_code}\n'
-                f'Причина: {response.reason}',
+                exception[0], exception[1]
             )
 
     # check map type and language
@@ -216,6 +215,11 @@ class MainWindow(QMainWindow):
         self.data.lang = self.lang_choices[button.objectName()]
         self.retranslateUI()
         self.getMapPicture()
+        if self.data.pt != '':
+            if self.data.pt.split(',')[2] == 'pm2ntm':
+                self.searchPlace(','.join(self.data.pt.split(',')[0:2]))
+            else:
+                self.searchOrganization(tuple(map(float, self.data.pt.split(',')[0:2])), for_lang=True)
 
     # click on the map
     def mousePressEvent(self, event: QMouseEvent):
@@ -258,16 +262,16 @@ class MainWindow(QMainWindow):
                 else:
                     self.setPlace(toponym)
             else:
+                exception = format_exception('req_error', self.data.lang, error=toponym.status_code,
+                                         reason=toponym.reason)
                 self.showErrorMessage(
-                    'req_error',
-                    f'Ошибка запроса: {toponym.status_code}\n'
-                    f'Причина: {toponym.reason}',
+                    exception[0], exception[1]
                 )
         except Exception as e:
             self.e = e
+            exception = format_exception('req_error', self.data.lang, reason=place)
             self.showErrorMessage(
-                'req_error',
-                f'Ошибка запроса! Местоположение по запросу "{place}" не найдено.'
+                exception[0], exception[1]
             )
 
     # setting location
@@ -313,14 +317,18 @@ class MainWindow(QMainWindow):
             self.fieldAddressShow.setPlainText(self.data.address)
 
     # search for organization
-    def searchOrganization(self, mouse_pos):
+    def searchOrganization(self, mouse_pos, for_lang=False):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
-        if coord_1:
-            toponym = get_toponym(self.data.lang, None, f'{coord_1},{coord_2}')
-            self.textForOrg = \
-                toponym.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty'][
-                    'GeocoderMetaData']['text']
-            response = get_organization(f'{coord_1},{coord_2}', self.textForOrg, self.data.lang)
+        if coord_1 or for_lang:
+            if not for_lang:
+                toponym = get_toponym(self.data.lang, None, f'{coord_1},{coord_2}')
+                self.textForOrg = \
+                    toponym.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject'][
+                        'metaDataProperty']['GeocoderMetaData']['text']
+                response = get_organization(f'{coord_1},{coord_2}', self.textForOrg, self.data.lang)
+            else:
+                self.textForOrg = self.data.address
+                response = get_organization(None, self.textForOrg, self.data.lang)
             if response:
                 response_json = response.json()
                 try:
@@ -334,15 +342,22 @@ class MainWindow(QMainWindow):
                         self.data.address = org_name + '\n' + org_address
                         self.getMapPicture()
                         self.remakePostalCode()
+                    else:
+                        exception = format_exception('map_error', self.data.lang)
+                        self.showErrorMessage(
+                            exception[0], exception[1]
+                        )
                 except Exception as e:
                     self.e = e
-                    return
+                    exception = format_exception('map_error', self.data.lang)
+                    self.showErrorMessage(
+                        exception[0], exception[1]
+                    )
             else:
-                print(response.request.url)
+                exception = format_exception('req_error', self.data.lang, error=response.status_code,
+                                         reason=response.reason)
                 self.showErrorMessage(
-                    'req_error',
-                    f'Ошибка запроса: {response.status_code}\n'
-                    f'Причина: {response.reason}',
+                    exception[0], exception[1]
                 )
 
     # change app language
@@ -365,7 +380,19 @@ class MainWindow(QMainWindow):
     # display errors
     def showErrorMessage(self, action, text):
         if action == 'req_error':
-            QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
+            if self.data.lang == 'ru':
+                QMessageBox.critical(self, 'Ошибка запроса', text, QMessageBox.Ok)
+            elif self.data.lang == 'be':
+                QMessageBox.critical(self, 'Памылка запысу', text, QMessageBox.Ok)
+            elif self.data.lang == 'en':
+                QMessageBox.critical(self, 'Request error', text, QMessageBox.Ok)
+        if action == 'map_error':
+            if self.data.lang == 'ru':
+                QMessageBox.critical(self, 'Отсутствие организации', text, QMessageBox.Ok)
+            elif self.data.lang == 'be':
+                QMessageBox.critical(self, 'Адсутнасць арганізацыі', text, QMessageBox.Ok)
+            elif self.data.lang == 'en':
+                QMessageBox.critical(self, 'Lack of organization', text, QMessageBox.Ok)
 
     # closing the window
     def closeEvent(self, event: QCloseEvent):

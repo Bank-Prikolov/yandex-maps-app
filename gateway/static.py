@@ -3,7 +3,7 @@ import requests
 
 def get_map(data):
     static_params = {
-        'lang': 'en_US' if data.lang == 'en' else 'ru_RU',
+        'lang': 'en_RU' if data.lang == 'en' else 'ru_RU',
         'll': ','.join(list(map(str, data.coords))),
         'l': data.display,
         'pt': data.pt,

@@ -1,4 +1,4 @@
-from .exception import except_hook
+from .exception import except_hook, format_exception
 from .screeninfo import check_screeninfo
 from .termination import terminate
 from .translation import translate
