@@ -1,7 +1,7 @@
 from config import cur
 
 
-class GetFunction:
+class Get:
     @staticmethod
     def get_data():
         req = """

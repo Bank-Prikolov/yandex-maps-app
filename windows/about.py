@@ -9,11 +9,11 @@ class AboutWindow(QMainWindow):
     # initialization
     def __init__(self, lang):
         super().__init__()
+        self.lang = lang
         self.textYLNote = None
         self.textDevelopers = None
-        self.textWaizorSote = None
         self.textMikhalexandr = None
-        self.lang = lang
+        self.textWaizorSote = None
         self.setupUI()
 
     # interface setup
@@ -25,7 +25,7 @@ class AboutWindow(QMainWindow):
         self.textWaizorSote.setOpenExternalLinks(True)
         self.retranslateUI()
 
-    # change app language
+    # changing app language
     def retranslateUI(self):
         _ = translate(self.lang, 'about')
         self.setWindowTitle(_('О нас'))

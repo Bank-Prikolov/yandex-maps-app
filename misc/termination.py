@@ -1,6 +1,6 @@
 import os
 
-from config import cur, con
+from config import con, cur
 
 
 def terminate():

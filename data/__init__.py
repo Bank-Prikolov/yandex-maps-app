@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
 
-from .get import GetFunction
-from .post import PostFunction
+from .get import Get
+from .post import Post
 from .tables import Tables
 
 
 Tables.create_tables()
-data = GetFunction.get_data()
+data = Get.get_data()
 
 
 @dataclass
@@ -24,4 +24,4 @@ class MapsData:
 
     @staticmethod
     def post_data(lang, spn, coords, display, pt, z, postal_code, address, checkbox_index, search_info):
-        PostFunction.post_data(lang, spn, coords, display, pt, z, postal_code, address, checkbox_index, search_info)
+        Post.post_data(lang, spn, coords, display, pt, z, postal_code, address, checkbox_index, search_info)

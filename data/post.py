@@ -1,7 +1,7 @@
 from config import con, cur
 
 
-class PostFunction:
+class Post:
     @staticmethod
     def post_data(lang, spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo):
         req = """

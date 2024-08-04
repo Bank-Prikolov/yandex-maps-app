@@ -487,7 +487,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="buttonInfo">
+   <widget class="QPushButton" name="buttonAbout">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -665,7 +665,7 @@ color: rgb(255, 255, 255);</string>
    <zorder>buttonPlus</zorder>
    <zorder>buttonMinus</zorder>
    <zorder>MagnifyingGlass</zorder>
-   <zorder>buttonInfo</zorder>
+   <zorder>buttonAbout</zorder>
    <zorder>labelLang</zorder>
    <zorder>radioButtonBe</zorder>
    <zorder>radioButtonEn</zorder>
