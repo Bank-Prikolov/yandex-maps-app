@@ -3,10 +3,10 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QRadioButton, QMessageBox
 from PyQt5.QtGui import QPixmap, QKeyEvent, QMouseEvent, QIcon, QCloseEvent
 
-from .about import AboutWindow
 from data import MapsData
 from gateway import get_map, get_toponym, get_organization
 from misc import degrees_to_pixels, ab_distance, format_exception, translate, terminate
+from .about import AboutWindow
 
 
 class MainWindow(QMainWindow):
