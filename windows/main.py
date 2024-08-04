@@ -12,7 +12,7 @@ from .about import AboutWindow
 class MainWindow(QMainWindow):
     # initialization
     def __init__(self):
-        super(QMainWindow, self).__init__()
+        super().__init__()
         self.lang_choices = None
         self.langGroup = None
         self.radioButtonBe = None
@@ -236,8 +236,7 @@ class MainWindow(QMainWindow):
             coordX, coordY = degrees_to_pixels(self.data.coords[1], self.data.z)
             return (self.data.coords[0] + coordX * (mouse_pos[0]) - (coordX * (x1 + x2 / 2 - 2)),
                     self.data.coords[1] - coordY * (mouse_pos[1] - y1) + (coordY * (y1 + y2 / 3 - 5)))
-        else:
-            return False, False
+        return False, False
 
     # click search
     def searchPlaceClick(self, mouse_pos):
