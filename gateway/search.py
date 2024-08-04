@@ -3,11 +3,17 @@ import requests
 from config import YandexApisConfig
 
 
-def get_organization(coords, text):
+def get_organization(coords, text, language):
+    if language == 'en':
+        lang = 'en_US'
+    elif language == 'ru':
+        lang = 'ru_RU'
+    else:
+        lang = 'be_BY'
     search_params = {
         'apikey': YandexApisConfig.SEARCH_API_KEY,
         'text': str(text),
-        'lang': 'ru_RU',
+        'lang': lang,
         'll': coords,
         'type': 'biz',
         'rspn': 1,

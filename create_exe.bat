@@ -1,1 +1,1 @@
-pyinstaller --onefile --noconsole --name "Yandex Maps" --icon "assets\icon.ico" main.py
+pyinstaller --onefile --noconsole --name "Yandex Maps" --icon "assets\general\icon.ico" app.py

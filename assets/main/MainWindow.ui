@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Яндекс Карты</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QPushButton {
@@ -89,7 +89,7 @@ QPushButton:pressed {
      <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
-     <string>Сброс  результата</string>
+     <string>Сброс результата</string>
     </property>
    </widget>
    <widget class="QPushButton" name="buttonSearch">
@@ -296,7 +296,7 @@ color: rgb(255, 255, 255);</string>
      <string>Почтовый индекс</string>
     </property>
    </widget>
-   <widget class="QLabel" name="textFullAdress">
+   <widget class="QLabel" name="textFullAddress">
     <property name="geometry">
      <rect>
       <x>650</x>
@@ -521,7 +521,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButtonRus">
+   <widget class="QRadioButton" name="radioButtonBe">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -552,7 +552,7 @@ border-radius: 10px;</string>
      <string notr="true">langGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="radioButtonEng">
+   <widget class="QRadioButton" name="radioButtonEn">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -580,7 +580,7 @@ border-radius: 10px;</string>
      <string notr="true">langGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="radioButtonBel">
+   <widget class="QRadioButton" name="radioButtonRu">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -655,7 +655,7 @@ color: rgb(255, 255, 255);</string>
    <zorder>radioButtonScheme</zorder>
    <zorder>lineHorizontal</zorder>
    <zorder>checkboxIndex</zorder>
-   <zorder>textFullAdress</zorder>
+   <zorder>textFullAddress</zorder>
    <zorder>fieldAddressShow</zorder>
    <zorder>labelMapButtons</zorder>
    <zorder>buttonLeftArrow</zorder>
@@ -667,9 +667,9 @@ color: rgb(255, 255, 255);</string>
    <zorder>MagnifyingGlass</zorder>
    <zorder>buttonInfo</zorder>
    <zorder>labelLang</zorder>
-   <zorder>radioButtonRus</zorder>
-   <zorder>radioButtonEng</zorder>
-   <zorder>radioButtonBel</zorder>
+   <zorder>radioButtonBe</zorder>
+   <zorder>radioButtonEn</zorder>
+   <zorder>radioButtonRu</zorder>
    <zorder>textLang</zorder>
    <zorder>lineHorizontal_2</zorder>
   </widget>
@@ -677,7 +677,7 @@ color: rgb(255, 255, 255);</string>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="mapTypeGroup"/>
   <buttongroup name="langGroup"/>
+  <buttongroup name="mapTypeGroup"/>
  </buttongroups>
 </ui>

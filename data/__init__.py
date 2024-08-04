@@ -1,25 +1,27 @@
 from dataclasses import dataclass, field
 
-from .get import GetFunctions
-from .post import PostFunctions
+from .get import GetFunction
+from .post import PostFunction
 from .tables import Tables
 
 
 Tables.create_tables()
+data = GetFunction.get_data()
 
 
 @dataclass
 class MapsData:
-    spn: float = GetFunctions.get_spn()
-    coords: list = field(default_factory=lambda: list(GetFunctions.get_coords()))
-    display: str = GetFunctions.get_display()
-    pt: str = GetFunctions.get_pt()
-    postal_code: str = GetFunctions.get_postal_code()
-    address: str = GetFunctions.get_address()
-    z: int = GetFunctions.get_zoom()
-    checkbox_index: int = GetFunctions.get_checkbox_index()
-    search_info: str = GetFunctions.get_search_info()
+    lang: str = data[1]
+    spn: float = data[2]
+    coords: list = field(default_factory=lambda: list(map(float, data[3].split(', '))))
+    display: str = data[4]
+    pt: str = data[5]
+    z: int = data[6]
+    postal_code: str = data[7]
+    address: str = data[8]
+    checkbox_index: int = data[9]
+    search_info: str = data[10]
 
     @staticmethod
-    def post_data(spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo):
-        PostFunctions.post_data(spn, coords, display, pt, z, postal_code, address, checkboxIndex, searchInfo)
+    def post_data(lang, spn, coords, display, pt, z, postal_code, address, checkbox_index, search_info):
+        PostFunction.post_data(lang, spn, coords, display, pt, z, postal_code, address, checkbox_index, search_info)

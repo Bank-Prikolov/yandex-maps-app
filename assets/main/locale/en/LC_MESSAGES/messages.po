@@ -1,0 +1,65 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-04 15:09+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.13.2\n"
+
+#: MainWindow%231
+msgid "Яндекс Карты"
+msgstr "Yandex Maps"
+
+#: MainWindow%232
+msgid "Сброс результата"
+msgstr "Reset result"
+
+#: MainWindow%233
+msgid "ПОИСК"
+msgstr "SEARCH"
+
+#: MainWindow%234
+msgid "Вид карты:"
+msgstr "Map type:"
+
+#: MainWindow%235
+msgid "Спутник"
+msgstr "Satellite"
+
+#: MainWindow%236
+msgid "Гибрид"
+msgstr "Hybrid"
+
+#: MainWindow%237
+msgid "Схема"
+msgstr "Scheme"
+
+#: MainWindow%238
+msgid "Почтовый индекс"
+msgstr "Postcode"
+
+#: MainWindow%239
+msgid "Полный адрес:"
+msgstr "Full address:"
+
+#: MainWindow%2318
+msgid "Бел"
+msgstr "Bel"
+
+#: MainWindow%2319
+msgid "Англ"
+msgstr "Eng"
+
+#: MainWindow%2320
+msgid "Рус"
+msgstr "Rus"
+
+#: MainWindow%2321
+msgid "Язык:"
+msgstr "Lang.:"

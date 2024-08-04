@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QRadioButton, QMessageBox
 
 from data import MapsData
 from gateway import get_map, get_toponym, get_organization
-from misc import degrees_to_pixels, ab_distance, terminate
+from misc import degrees_to_pixels, ab_distance, translate, terminate
 from .about import AboutWindow
 
 
@@ -13,6 +13,14 @@ class MainWindow(QMainWindow):
     # initialization
     def __init__(self):
         super(QMainWindow, self).__init__()
+        self.lang_choices = None
+        self.langGroup = None
+        self.radioButtonBe = None
+        self.radioButtonEn = None
+        self.radioButtonRu = None
+        self.textLang = None
+        self.textMapType = None
+        self.textFullAddress = None
         self.map = None
         self.radioButtonSatellite = None
         self.radioButtonHybrid = None
@@ -39,12 +47,12 @@ class MainWindow(QMainWindow):
 
     # interface setup
     def setupUI(self):
-        uic.loadUi('assets/ui/MainWindow.ui', self)
+        uic.loadUi('assets/main/MainWindow.ui', self)
         self.setupData()
-        self.setWindowTitle('Yandex Maps')
         self.setFixedSize(870, 504)
-        self.setWindowIcon(QIcon('assets/images/icon.ico'))
+        self.setWindowIcon(QIcon('assets/general/icon.ico'))
         self.mapTypeGroup.buttonClicked.connect(self.chooseMapType)
+        self.langGroup.buttonClicked.connect(self.chooseLang)
         self.buttonSearch.clicked.connect(self.searchPlace)
         self.buttonClearResults.clicked.connect(self.clearSearchResult)
         self.checkboxIndex.stateChanged.connect(self.remakePostalCode)
@@ -55,19 +63,26 @@ class MainWindow(QMainWindow):
         self.buttonPlus.clicked.connect(self.plusClicked)
         self.buttonMinus.clicked.connect(self.minusClicked)
         self.buttonInfo.clicked.connect(self.infoClicked)
+        if self.data.lang != 'ru':
+            self.retranslateUI()
         self.getMapPicture()
 
     # receiving and processing data
     def setupData(self):
         self.data = MapsData()
         self.map_type_choices = {
-            'Схема': 'map',
-            'Спутник': 'sat',
-            'Гибрид': 'sat,skl',
+            'radioButtonScheme': 'map',
+            'radioButtonSatellite': 'sat',
+            'radioButtonHybrid': 'sat,skl',
+        }
+        self.lang_choices = {
+            'radioButtonRu': 'ru',
+            'radioButtonBe': 'be',
+            'radioButtonEn': 'en',
         }
         if self.data.search_info != '':
             self.fieldSearch.setPlainText(self.data.search_info)
-        self.checkWhatMapType()
+        self.checkForRadioButtons()
         if self.data.address != '':
             self.fieldAddressShow.setPlainText(self.data.address)
         if self.data.checkbox_index == 1:
@@ -87,8 +102,8 @@ class MainWindow(QMainWindow):
                 f'Причина: {response.reason}',
             )
 
-    # check map type
-    def checkWhatMapType(self):
+    # check map type and language
+    def checkForRadioButtons(self):
         if self.data.display == 'map':
             self.radioButtonScheme.setChecked(True)
         elif self.data.display == 'sat':
@@ -96,11 +111,18 @@ class MainWindow(QMainWindow):
         elif self.data.display == 'sat,skl':
             self.radioButtonHybrid.setChecked(True)
 
+        if self.data.lang == 'ru':
+            self.radioButtonRu.setChecked(True)
+        elif self.data.lang == 'be':
+            self.radioButtonBe.setChecked(True)
+        elif self.data.lang == 'en':
+            self.radioButtonEn.setChecked(True)
+
     # installing a map
     def setMapPicture(self, response):
-        with open('assets/images/map.png', 'wb') as file:
+        with open('assets/general/map.png', 'wb') as file:
             file.write(response.content)
-        pixmap = QPixmap('assets/images/map.png')
+        pixmap = QPixmap('assets/general/map.png')
         self.map.setPixmap(pixmap)
 
     # button presses handling
@@ -186,7 +208,13 @@ class MainWindow(QMainWindow):
 
     # select map type
     def chooseMapType(self, button: QRadioButton):
-        self.data.display = self.map_type_choices[button.text()]
+        self.data.display = self.map_type_choices[button.objectName()]
+        self.getMapPicture()
+
+    # select language
+    def chooseLang(self, button: QRadioButton):
+        self.data.lang = self.lang_choices[button.objectName()]
+        self.retranslateUI()
         self.getMapPicture()
 
     # click on the map
@@ -218,12 +246,11 @@ class MainWindow(QMainWindow):
         place = self.fieldSearch.toPlainText().strip()
         try:
             if coords:
-                toponym = get_toponym(None, coords)
+                toponym = get_toponym(self.data.lang, None, coords)
             elif place:
-                toponym = get_toponym(place)
+                toponym = get_toponym(self.data.lang, place)
             else:
                 toponym = None
-
             if toponym:
                 toponym = toponym.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
                 if coords:
@@ -247,14 +274,12 @@ class MainWindow(QMainWindow):
     def setPlace(self, toponym, coords=''):
         toponym_address = toponym['metaDataProperty']['GeocoderMetaData']['text']
         toponym_coords = toponym['Point']['pos']
-
         if not coords:
             self.data.coords = list(map(float, toponym_coords.split()))
             self.data.pt = (','.join(list(map(str, toponym_coords.split()))) + ',pm2ntm')
         else:
             self.data.pt = coords + ',pm2ntm'
         self.data.address = toponym_address
-
         self.getMapPicture()
         self.getPostalCode(toponym)
         self.remakePostalCode()
@@ -277,7 +302,7 @@ class MainWindow(QMainWindow):
 
     # show info
     def infoClicked(self):
-        self.ex = AboutWindow()
+        self.ex = AboutWindow(self.data.lang)
         self.ex.show()
 
     # reset zip code
@@ -291,11 +316,11 @@ class MainWindow(QMainWindow):
     def searchOrganization(self, mouse_pos):
         coord_1, coord_2 = self.mouseToCoords(mouse_pos)
         if coord_1:
-            toponym = get_toponym(None, f'{coord_1},{coord_2}')
+            toponym = get_toponym(self.data.lang, None, f'{coord_1},{coord_2}')
             self.textForOrg = \
                 toponym.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty'][
                     'GeocoderMetaData']['text']
-            response = get_organization(f'{coord_1},{coord_2}', self.textForOrg)
+            response = get_organization(f'{coord_1},{coord_2}', self.textForOrg, self.data.lang)
             if response:
                 response_json = response.json()
                 try:
@@ -320,6 +345,23 @@ class MainWindow(QMainWindow):
                     f'Причина: {response.reason}',
                 )
 
+    # change app language
+    def retranslateUI(self):
+        _ = translate(self.data.lang, 'main')
+        self.setWindowTitle(_('Яндекс Карты'))
+        self.buttonSearch.setText(_('ПОИСК'))
+        self.textFullAddress.setText(_('Полный адрес'))
+        self.checkboxIndex.setText(_('Почтовый индекс'))
+        self.textMapType.setText(_('Вид карты:'))
+        self.radioButtonScheme.setText(_('Схема'))
+        self.radioButtonSatellite.setText(_('Спутник'))
+        self.radioButtonHybrid.setText(_('Гибрид'))
+        self.textLang.setText(_('Язык:'))
+        self.radioButtonRu.setText(_('Рус'))
+        self.radioButtonEn.setText(_('Англ'))
+        self.radioButtonBe.setText(_('Бел'))
+        self.buttonClearResults.setText(_('Сброс результата'))
+
     # display errors
     def showErrorMessage(self, action, text):
         if action == 'req_error':
@@ -327,7 +369,9 @@ class MainWindow(QMainWindow):
 
     # closing the window
     def closeEvent(self, event: QCloseEvent):
-        self.data.post_data(self.data.spn, self.data.coords, self.data.display, self.data.pt, self.data.z,
-                      self.data.postal_code, self.data.address, --self.checkboxIndex.isChecked(),
-                      self.fieldSearch.toPlainText().strip())
+        self.data.post_data(
+            self.data.lang, self.data.spn, self.data.coords, self.data.display, self.data.pt, self.data.z,
+            self.data.postal_code, self.data.address, --self.checkboxIndex.isChecked(),
+            self.fieldSearch.toPlainText().strip()
+        )
         terminate()
