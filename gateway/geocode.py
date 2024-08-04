@@ -1,15 +1,11 @@
 import requests
 
 from config import YandexApisConfig
+from misc import format_lang
 
 
 def get_toponym(language, place_name=None, coords=None):
-    if language == 'en':
-        lang = 'en_RU'
-    elif language == 'ru':
-        lang = 'ru_RU'
-    else:
-        lang = 'be_BY'
+    lang = format_lang(language)
     geocode_params = {
         'apikey': YandexApisConfig.GEOCODE_API_KEY,
         'lang': lang,

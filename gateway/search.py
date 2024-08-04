@@ -1,15 +1,11 @@
 import requests
 
 from config import YandexApisConfig
+from misc import format_lang
 
 
 def get_organization(coords, text, language):
-    if language == 'en':
-        lang = 'en_RU'
-    elif language == 'ru':
-        lang = 'ru_RU'
-    else:
-        lang = 'be_BY'
+    lang = format_lang(language)
     if coords is not None:
         search_params = {
             'apikey': YandexApisConfig.SEARCH_API_KEY,
