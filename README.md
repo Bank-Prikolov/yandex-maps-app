@@ -15,7 +15,7 @@ The app also supports several languages ​​and types of maps
 > The application was developed for educational purposes as part of training at [Yandex Lyceum](https://lyceum.yandex.ru/) and is not a Yandex product
 
 ## 📺 Preview
-![](https://github.com/mikhalexandr/yandex-maps-app/blob/main/assets/general/preview.mp4)
+https://github.com/user-attachments/assets/857a00c6-6fc0-4b5a-a470-6cae08f68032
 
 ## 🛠️ Tech Stack
 ㅤ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
