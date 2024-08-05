@@ -4,10 +4,18 @@
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue)
 ![Version](https://img.shields.io/badge/version-1.0-green)
 
-An action platformer in the Metroidvania genre, dedicated to the confrontation between Python and PHP, which includes completing levels, defeating enemies and a boss, interesting gameplay, as well as an original story, music, design and interface
+Desktop application that includes Yandex.Maps API capabilities:
+  - Static API for displaying a map
+  - Geocoder API for finding a place by request or mouse click
+  - Places API for finding the nearest organization by mouse click  
+
+The app also supports several languages ​​and types of maps
+
+> [!WARNING]
+> The application was developed for educational purposes as part of training at Yandex Lyceum and is not a Yandex product
 
 ## 📺 Preview
-![]()
+![](https://github.com/mikhalexandr/yandex-maps-app/blob/main/assets/general/preview.mp4)
 
 ## 🛠️ Tech Stack
 ㅤ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
@@ -32,6 +40,6 @@ pip install requirements.txt
 
 * Run `app.py`
 
-## 👾 Download App
+## 💾 Download App
 * You can download `Yandex Maps.zip` from [v1.0 Release](https://github.com/mikhalexandr/yandex-maps-app/releases/tag/v1.0.0) and after that run `Yandex Maps.exe`
 * You can download the project and create your own `.exe` file using the script from `create_exe.bat` in the terminal (you must be in the project folder and install all required dependencies)
