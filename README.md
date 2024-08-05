@@ -5,9 +5,9 @@
 ![Version](https://img.shields.io/badge/version-1.0-green)
 
 Desktop application that includes [Yandex Maps API](https://yandex.ru/maps-api/) capabilities:
-  - [Static API](https://yandex.com/maps-api/products/static-api?lang=en) for displaying a map
-  - [Geocoder API](https://yandex.com/maps-api/products/geocoder-api?lang=en) for finding a place by request or mouse click
-  - [Places API](https://yandex.com/maps-api/products/geosearch-api?lang=en) for finding the nearest organization by mouse click  
+  * [Static API](https://yandex.com/maps-api/products/static-api?lang=en) for displaying a map
+  * [Geocoder API](https://yandex.com/maps-api/products/geocoder-api?lang=en) for finding a place by request or mouse click
+  * [Places API](https://yandex.com/maps-api/products/geosearch-api?lang=en) for finding the nearest organization by mouse click  
 
 The app also supports several languages ​​and types of maps
 
@@ -38,8 +38,14 @@ git clone https://github.com/mikhalexandr/yandex-maps-app.git
 pip install requirements.txt
 ```
 
+* Create `.env` in the root folder of the project:
+```env
+GEOCODER_API_KEY=your_geocoder_api_key
+PLACES_API_KEY=your_places_api_key
+```
+
 * Run `app.py`
 
 ## 💾 Download App
-* You can download `Yandex Maps.zip` from [v1.0 Release](https://github.com/mikhalexandr/yandex-maps-app/releases/tag/v1.0.0) and after that run `Yandex Maps.exe`
+* You can download `Yandex Maps.zip` from [v1.0 Release](https://github.com/mikhalexandr/yandex-maps-app/releases/tag/v1.0.0) and after unpacking the archive run `Yandex Maps.exe`
 * You can download the project and create your own `.exe` file using the script from `create_exe.bat` in the terminal (you must be in the project folder and install all required dependencies)
