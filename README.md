@@ -4,7 +4,7 @@
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue)
 ![Version](https://img.shields.io/badge/version-1.0-green)
 
-Desktop application that includes Yandex.Maps API capabilities:
+Desktop application that includes [Yandex Maps API](https://yandex.ru/maps-api/) capabilities:
   - [Static API](https://yandex.com/maps-api/products/static-api?lang=en) for displaying a map
   - [Geocoder API](https://yandex.com/maps-api/products/geocoder-api?lang=en) for finding a place by request or mouse click
   - [Places API](https://yandex.com/maps-api/products/geosearch-api?lang=en) for finding the nearest organization by mouse click  
