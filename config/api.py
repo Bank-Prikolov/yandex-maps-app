@@ -8,5 +8,5 @@ load_dotenv()
 
 @dataclass
 class YandexApisConfig:
-    GEOCODE_API_KEY: str = os.getenv('GEOCODE_API_KEY')
-    SEARCH_API_KEY: str = os.getenv('SEARCH_API_KEY')
+    GEOCODER_API_KEY: str = os.getenv('GEOCODER_API_KEY')
+    PLACES_API_KEY: str = os.getenv('PLACES_API_KEY')
