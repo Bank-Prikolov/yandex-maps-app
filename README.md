@@ -5,14 +5,14 @@
 ![Version](https://img.shields.io/badge/version-1.0-green)
 
 Desktop application that includes Yandex.Maps API capabilities:
-  - Static API for displaying a map
-  - Geocoder API for finding a place by request or mouse click
-  - Places API for finding the nearest organization by mouse click  
+  - [Static API](https://yandex.com/maps-api/products/static-api?lang=en) for displaying a map
+  - [Geocoder API](https://yandex.com/maps-api/products/geocoder-api?lang=en) for finding a place by request or mouse click
+  - [Places API](https://yandex.com/maps-api/products/geosearch-api?lang=en) for finding the nearest organization by mouse click  
 
 The app also supports several languages ​​and types of maps
 
 > [!WARNING]
-> The application was developed for educational purposes as part of training at Yandex Lyceum and is not a Yandex product
+> The application was developed for educational purposes as part of training at [Yandex Lyceum](https://lyceum.yandex.ru/) and is not a Yandex product
 
 ## 📺 Preview
 ![](https://github.com/mikhalexandr/yandex-maps-app/blob/main/assets/general/preview.mp4)
