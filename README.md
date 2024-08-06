@@ -47,5 +47,5 @@ PLACES_API_KEY=your_places_api_key
 * Run `app.py`
 
 ## 💾 Download App
-* You can download `Yandex Maps.zip` from [Release v1.0.0](https://github.com/mikhalexandr/yandex-maps-app/releases/tag/v1.0.0) and after unpacking the archive run `Yandex Maps.exe`
+* You can download `Yandex_Maps.zip` from [Release v1.0.0](https://github.com/mikhalexandr/yandex-maps-app/releases/tag/v1.0.0) and after unpacking the archive run `Yandex Maps.exe`
 * You can download the project and create your own `.exe` file using the script from `create_exe.bat` in the terminal (you must be in the project folder and install all required dependencies)
