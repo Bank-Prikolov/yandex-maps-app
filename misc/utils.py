@@ -2,10 +2,10 @@ import math
 from geopy.distance import geodesic
 
 
-def degrees_to_pixels(coord1, z):
-    coordX = 360 / (2 ** (z + 8))
-    coordY = math.cos(math.radians(coord1)) * 360 / (2 ** (z + 8))
-    return coordX, coordY
+def pixel_in_degrees(coord1, z):
+    px_alongX = 360 / (2 ** (z + 8))
+    px_alongY = math.cos(math.radians(coord1)) * 360 / (2 ** (z + 8))
+    return px_alongX, px_alongY
 
 
 def ab_distance(a, b):

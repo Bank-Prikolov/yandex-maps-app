@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPixmap, QKeyEvent, QMouseEvent, QIcon, QCloseEvent
 
 from data import MapsData
 from gateway import get_map, get_toponym, get_organization
-from misc import degrees_to_pixels, ab_distance, format_exception, translate, terminate
+from misc import pixel_in_degrees, ab_distance, format_exception, translate, terminate
 from .about import AboutWindow
 
 
@@ -224,20 +224,20 @@ class MainWindow(QMainWindow):
     # mouse click handling
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
-            coord_1, coord_2 = self.mouseToCoords((event.x(), event.y()))
+            coord_1, coord_2 = self.pixelsToDegrees((event.x(), event.y()))
             if coord_1:
                 self.searchPlace(coords=f'{coord_1},{coord_2}')
         else:
             self.searchAndSetOrganization((event.x(), event.y()))
 
     # converting window coordinates to map coordinates
-    def mouseToCoords(self, mouse_pos):
+    def pixelsToDegrees(self, mouse_pos):
         x1, x2 = self.map.pos().x(), self.map.pos().x() + 619
         y1, y2 = self.map.pos().y(), self.map.pos().y() + 429
         if x1 <= mouse_pos[0] <= x2 and y1 <= mouse_pos[1] <= y2:
-            coordX, coordY = degrees_to_pixels(self.data.coords[1], self.data.z)
-            return (self.data.coords[0] + coordX * (mouse_pos[0]) - (coordX * (x1 + x2 / 2 - 2)),
-                    self.data.coords[1] - coordY * (mouse_pos[1] - y1) + (coordY * (y1 + y2 / 3 - 5)))
+            px_alongX, px_alongY = pixel_in_degrees(self.data.coords[1], self.data.z)
+            return (self.data.coords[0] + px_alongX * (mouse_pos[0]) - (px_alongX * (x1 + x2 / 2 - 2)),
+                    self.data.coords[1] - px_alongY * (mouse_pos[1] - y1) + (px_alongY * (y1 + y2 / 3 - 5)))
         return False, False
 
     # searching for a place
@@ -300,7 +300,7 @@ class MainWindow(QMainWindow):
 
     # searching for organization and setting it up
     def searchAndSetOrganization(self, mouse_pos, for_lang=False):
-        coord_1, coord_2 = self.mouseToCoords(mouse_pos)
+        coord_1, coord_2 = self.pixelsToDegrees(mouse_pos)
         if coord_1 or for_lang:
             if not for_lang:
                 toponym = get_toponym(self.data.lang, None, f'{coord_1},{coord_2}')
